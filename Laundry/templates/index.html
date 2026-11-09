@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="../static/css/dashboard.css">
+</head>
+<body class="testo">
+    <header>
+        <div class="header-kiri">
+            <button class="menu-button" onclick="bukatutupsidebar()">☰</button>
+            <h2>
+                My Laundry
+            </h2>
+        </div>
+
+        <div class="profile">
+            <div class="foto-profile">
+                <img src="Rin Shima (志摩 リン).jpe" alt="potopropil">
+            </div>
+
+            <div class="info-profile">
+                <span>Admin Laundry</span>
+                <small>Administrator</small>
+            </div>
+            <button class="profile-button" onclick="bukatutupprofile()">⌄</button>
+            <div class="profile-page" id="profiledropdown">
+                <a href="pengaturan.html">Pengaturan</a>
+                <a href="logout.html">Log Out</a>
+            </div>
+        </div>
+    </header>
+
+    
+    <!-- DASHBOARD -->
+    <aside class="sidebar" id="sidebar">
+        <!-- SIDEBAR -->
+        <div class="dashboard">
+            <h2>MENU</h2>
+            <a href="#" class="active">Dashboard</a>
+            <a href="pesanan.html" >Pesanan</a>
+            <a href="pembayaran.html">Pembayaran</a>
+        </div>
+    </aside>
+    <main class="content-dashboard" id="Konten">
+        <!-- KOTAK KOTAK KONTEN-->
+        <div class="information-box">
+            <span><Strong>Pendapatan Total</Strong></span>
+            <p>Rp.--</p>
+        </div>
+
+        <div class="information-box">
+            <span><Strong>Pelanggan</Strong></span>
+            <p>---</p>
+        </div>
+
+        <div class="information-box">
+            <span><Strong>Pesanan</Strong></span>
+            <p>---</p>
+        </div>
+
+        <div class="information-box">
+            <span><Strong> Gatau </Strong></span>
+            <p>---</p>
+        </div>
+
+        <div class="information-chart">
+            <p>
+                grafik-pendapatan
+            </p>
+            <canva id="grafik-pendapatan">
+
+            </canva>
+        </div>
+
+        <div class="information-chart">
+            <p>
+                grafik-tipe-layanan
+            </p>
+            <canva id="grafik-tipe-layanan">
+
+            </canva>
+        </div>
+    </main>
+
+    <script>
+        function bukatutupsidebar(){
+            document.getElementById("sidebar")
+                .classList.toggle("closed")
+            
+            document.getElementById("Konten")
+                .classList.toggle("expanded")
+        }
+
+        function bukatutupprofile(){
+            document.getElementById("profiledropdown")
+                .classList.toggle("show")
+        }
+    </script>
+</body>
+</html>

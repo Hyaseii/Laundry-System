@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - My Laundry</title>
+    <link rel="stylesheet" href="../static/css/dashboard.css">
+    <link rel="stylesheet" href="pengaturan-modal.css">
+</head>
+<body class="testo">
+
+    <!-- HEADER -->
+    <header>
+        <div class="header-kiri">
+            <button class="menu-button" onclick="bukatutupsidebar()">☰</button>
+            <h2>My Laundry</h2>
+        </div>
+
+        <div class="profile">
+            <div class="foto-profile">
+                <img src="Rin Shima (志摩 リン).jpe" alt="potopropil">
+            </div>
+
+            <div class="info-profile">
+                <span>Admin Laundry</span>
+                <small>Administrator</small>
+            </div>
+            <button class="profile-button" onclick="bukatutupprofile()">⌄</button>
+            <div class="profile-page" id="profiledropdown">
+                <!-- Klik link ini untuk membuka Pop-up Pengaturan -->
+                <a href="javascript:void(0)" onclick="bukaModalPengaturan()">Pengaturan</a>
+                <a href="logout.html">Log Out</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+        <div class="dashboard">
+            <h2>MENU</h2>
+            <a href="index.html" class="active">Dashboard</a>
+            <a href="pesanan.html">Pesanan</a>
+            <a href="pembayaran.html">Pembayaran</a>
+            <a href="javascript:void(0)" onclick="bukaModalPengaturan()">Pengaturan</a>
+        </div>
+    </aside>
+
+    <!-- KONTEN DASHBOARD UTAMA -->
+    <main class="content-dashboard" id="Konten">
+        <div class="information-box">
+            <span><strong>Pendapatan Total</strong></span>
+            <p>Rp 100.000</p>
+        </div>
+        <div class="information-box">
+            <span><strong>Pelanggan</strong></span>
+            <p>12</p>
+        </div>
+        <div class="information-box">
+            <span><strong>Pesanan</strong></span>
+            <p>8</p>
+        </div>
+        <div class="information-box">
+            <span><strong>Status Layanan</strong></span>
+            <p>Aktif</p>
+        </div>
+    </main>
+
+    <!-- ========================================== -->
+    <!-- MODAL POPUP PENGATURAN ADMIN (HAMPIR FULL) -->
+    <!-- ========================================== -->
+    <div class="modal-settings-overlay" id="modalSettings">
+        <div class="modal-settings-container">
+            
+            <!-- HEADER MODAL -->
+            <div class="modal-settings-header">
+                <div>
+                    <h3>Pengaturan Admin</h3>
+                    <p>Kelola profil, keamanan, tarif layanan, dan preferensi sistem</p>
+                </div>
+                <button class="close-settings-btn" onclick="tutupModalPengaturan()">&times;</button>
+            </div>
+
+            <!-- BODY MODAL (SIDEBAR TAB & KONTEN TAB) -->
+            <div class="modal-settings-body">
+                
+                <!-- NAVIGATION TAB KIRI -->
+                <nav class="settings-sidebar">
+                    <button class="tab-link active" onclick="switchTab(event, 'tab-profil')">
+                        <span>👤 Profil Admin</span>
+                    </button>
+                    <button class="tab-link" onclick="switchTab(event, 'tab-keamanan')">
+                        <span>🔒 Keamanan & Sandi</span>
+                    </button>
+                    <button class="tab-link" onclick="switchTab(event, 'tab-tarif')">
+                        <span>🏷️ Tarif & Layanan</span>
+                    </button>
+                    <button class="tab-link" onclick="switchTab(event, 'tab-notifikasi')">
+                        <span>🔔 Notifikasi</span>
+                    </button>
+                </nav>
+
+                <!-- KONTEN TAB KANAN -->
+                <div class="settings-content">
+                    
+                    <!-- TAB 1: PROFIL -->
+                    <div id="tab-profil" class="tab-content active">
+                        <h4>Edit Profil Administrator</h4>
+                        <form onsubmit="simpanPengaturan(event)">
+                            <div class="avatar-section">
+                                <img src="Rin Shima (志摩 リン).jpe" alt="Profile" class="avatar-preview">
+                                <div>
+                                    <button type="button" class="btn-secondary">Ganti Foto</button>
+                                    <p class="help-text">Format JPG atau PNG, Maks 2MB</p>
+                                </div>
+                            </div>
+
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>Nama Lengkap</label>
+                                    <input type="text" value="Admin Laundry" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Username</label>
+                                    <input type="text" value="admin_laundry" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input type="email" value="admin@mylaundry.com" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>No. WhatsApp / Telepon</label>
+                                    <input type="text" value="085692991035" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-footer">
+                                <button type="submit" class="btn-primary">Simpan Perubahan</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- TAB 2: KEAMANAN -->
+                    <div id="tab-keamanan" class="tab-content">
+                        <h4>Ganti Kata Sandi</h4>
+                        <form onsubmit="simpanPengaturan(event)">
+                            <div class="form-group">
+                                <label>Kata Sandi Saat Ini</label>
+                                <input type="password" placeholder="••••••••" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Kata Sandi Baru</label>
+                                <input type="password" placeholder="••••••••" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Konfirmasi Kata Sandi Baru</label>
+                                <input type="password" placeholder="••••••••" required>
+                            </div>
+
+                            <div class="form-footer">
+                                <button type="submit" class="btn-primary">Update Password</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- TAB 3: TARIF & LAYANAN -->
+                    <div id="tab-tarif" class="tab-content">
+                        <h4>Pengaturan Tarif Layanan (Per Kg)</h4>
+                        <form onsubmit="simpanPengaturan(event)">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>Harga Cuci Regular (Rp/Kg)</label>
+                                    <input type="number" value="7000">
+                                </div>
+                                <div class="form-group">
+                                    <label>Harga Setrika (Rp/Kg)</label>
+                                    <input type="number" value="6000">
+                                </div>
+                                <div class="form-group">
+                                    <label>Harga Laundry + Setrika (Rp/Kg)</label>
+                                    <input type="number" value="12000">
+                                </div>
+                                <div class="form-group">
+                                    <label>Harga Express (Rp/Kg)</label>
+                                    <input type="number" value="18000">
+                                </div>
+                            </div>
+
+                            <div class="form-footer">
+                                <button type="submit" class="btn-primary">Simpan Tarif</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- TAB 4: NOTIFIKASI -->
+                    <div id="tab-notifikasi" class="tab-content">
+                        <h4>Preferensi Notifikasi Sistem</h4>
+                        <div class="toggle-group">
+                            <div>
+                                <strong>Notifikasi Pesanan Baru (WhatsApp)</strong>
+                                <p class="help-text">Kirim notifikasi otomatis saat pesanan baru dibuat</p>
+                            </div>
+                            <input type="checkbox" checked>
+                        </div>
+                        <hr class="divider">
+                        <div class="toggle-group">
+                            <div>
+                                <strong>Laporan Harian via Email</strong>
+                                <p class="help-text">Terima ringkasan transaksi setiap pukul 21:00 WIB</p>
+                            </div>
+                            <input type="checkbox">
+                        </div>
+
+                        <div class="form-footer">
+                            <button type="button" onclick="simpanPengaturan(event)" class="btn-primary">Simpan Preferensi</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- SCRIPT JAVASCRIPT -->
+    <script>
+        function bukatutupsidebar() {
+            const sidebar = document.getElementById("sidebar");
+            const konten = document.getElementById("Konten");
+            if (window.innerWidth <= 650) {
+                sidebar.classList.toggle("show");
+            } else {
+                sidebar.classList.toggle("closed");
+                konten.classList.toggle("expanded");
+            }
+        }
+
+        function bukatutupprofile() {
+            document.getElementById("profiledropdown").classList.toggle("show");
+        }
+
+        /* --- LOGIK MODAL PENGATURAN --- */
+        function bukaModalPengaturan() {
+            document.getElementById("modalSettings").classList.add("show");
+            document.getElementById("profiledropdown").classList.remove("show");
+        }
+
+        function tutupModalPengaturan() {
+            document.getElementById("modalSettings").classList.remove("show");
+        }
+
+        // Buka/ganti tab pengaturan
+        function switchTab(evt, tabId) {
+            const tabContents = document.querySelectorAll(".tab-content");
+            tabContents.forEach(content => content.classList.remove("active"));
+
+            const tabLinks = document.querySelectorAll(".tab-link");
+            tabLinks.forEach(link => link.classList.remove("active"));
+
+            document.getElementById(tabId).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+
+        function simpanPengaturan(e) {
+            e.preventDefault();
+            alert("Pengaturan berhasil disimpan!");
+        }
+
+        // Tutup modal jika area luar (backdrop) diklik
+        document.getElementById("modalSettings").addEventListener("click", function(e) {
+            if (e.target === this) {
+                tutupModalPengaturan();
+            }
+        });
+
+        // Tutup modal dengan tombol ESC
+        document.addEventListener("keydown", function(e) {
+            if (e.key === "Escape") {
+                tutupModalPengaturan();
+            }
+        });
+    </script>
+</body>
+</html>

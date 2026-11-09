@@ -1,0 +1,891 @@
+
+/* =========================================
+   MY LAUNDRY - PESANAN
+   COLOR THEME: NAVY BLUE + WHITE + GREEN
+========================================= */
+
+:root {
+    --navy-dark: #00072D;
+    --navy: #051650;
+    --blue-dark: #0A2472;
+    --blue: #123499;
+    --green: #5CAF73;
+
+    --background: #F4F5F9;
+    --white: #FFFFFF;
+    --text: #172554;
+    --text-light: #7A8499;
+    --border: #E5E7EB;
+
+    --shadow: 0 4px 15px rgba(0, 7, 45, 0.06);
+}
+
+
+/* =========================
+   RESET DASAR
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f6fa;
+    color: #333;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+header {
+    width: 100%;
+    height: 75px;
+    background-color: #ffffff;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 30px;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    z-index: 100;
+
+    border-bottom: 1px solid #e5e7eb;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.header-kiri {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.header-kiri h2 {
+    font-size: 23px;
+    color: #333;
+}
+
+/* HAMBURGER */
+
+.menu-button {
+    border: none;
+    background: transparent;
+
+    font-size: 27px;
+    color: #333;
+
+    cursor: pointer;
+
+    padding: 8px 12px;
+    border-radius: 8px;
+
+    transition: 0.2s;
+}
+
+.menu-button:hover {
+    background-color: #f0f0f0;
+}
+
+/* =========================
+   PROFILE KANAN ATAS
+========================= */
+
+.profile {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.foto-profile {
+    width: 42px;
+    height: 42px;
+
+    border-radius: 50%;
+    background-color: #e3e8f5;
+
+    overflow: hidden;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.foto-profile img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.info-profile {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.info-profile span {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+}
+
+.info-profile small {
+    font-size: 12px;
+    color: #888;
+}
+
+.profile-button {
+    border: none;
+    background: transparent;
+
+    font-size: 22px;
+    cursor: pointer;
+
+    padding: 5px 8px;
+    border-radius: 6px;
+}
+
+.profile-button:hover {
+    background-color: #f0f0f0;
+}
+
+/* DROPDOWN PROFILE */
+
+.profile-page {
+    display: none;
+
+    position: absolute;
+    top: calc(100% + 15px);
+    right: 0;
+
+    width: 190px;
+
+    background-color: #ffffff;
+
+    border-radius: 12px;
+    border: 1px solid #eeeeee;
+
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+
+    padding: 8px;
+
+    z-index: 200;
+}
+
+.profile-page.show {
+    display: block;
+}
+
+.profile-page a {
+    display: block;
+
+    text-decoration: none;
+    color: #333;
+
+    padding: 12px;
+    border-radius: 8px;
+
+    font-size: 14px;
+
+    transition: 0.2s;
+}
+
+.profile-page a:hover {
+    background-color: #e9edff;
+    color: #4256ac;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar {
+    position: fixed;
+
+    top: 75px;
+    left: 0;
+
+    width: 240px;
+    height: calc(100vh - 75px);
+
+    background-color: #ffffff;
+
+    padding: 25px 15px;
+
+    overflow-y: auto;
+
+    border-right: 1px solid #e5e7eb;
+
+    transition: transform 0.3s ease;
+
+    z-index: 50;
+}
+
+/* JUDUL MENU */
+
+.sidebar h2 {
+    font-size: 13px;
+    font-weight: normal;
+
+    color: #999;
+
+    margin: 5px 12px 20px;
+
+    letter-spacing: 1.5px;
+}
+
+/* LINK SIDEBAR */
+
+.sidebar a {
+    display: block;
+
+    text-decoration: none;
+    color: #555;
+
+    padding: 14px 15px;
+    margin-bottom: 8px;
+
+    border-radius: 10px;
+
+    font-size: 15px;
+
+    transition: 0.2s;
+}
+
+/* HOVER MENU */
+
+.sidebar a:hover {
+    background-color: #e9edff;
+    color: #4256ac;
+
+    padding-left: 20px;
+}
+
+/* MENU AKTIF */
+
+.sidebar a.active {
+    background-color: #e9edff;
+    color: #4256ac;
+
+    font-weight: bold;
+}
+
+/* SIDEBAR DITUTUP */
+
+.sidebar.closed {
+    transform: translateX(-100%);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 600px) {
+
+    header {
+        padding: 0 12px;
+    }
+
+    .header-kiri {
+        gap: 8px;
+    }
+
+    .header-kiri h2 {
+        font-size: 18px;
+    }
+
+    .info-profile {
+        display: none;
+    }
+
+    .profile {
+        gap: 5px;
+    }
+
+    .sidebar {
+        width: 220px;
+    }
+
+}
+
+/* =========================================
+   MAIN CONTENT
+========================================= */
+
+.pesanan-content {
+    margin-left: 250px;
+    padding: 110px 30px 40px;
+
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+
+    transition: 0.3s ease;
+}
+
+.pesanan-content h3 {
+    grid-column: 1 / 4;
+    align-self: center;
+    font-size: 23px;
+    color: var(--navy);
+}
+
+/* =========================================
+   BUTTON BUAT PESANAN
+========================================= */
+
+.order-button {
+    grid-column: 4 / 5;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.order-button button {
+    background: var(--blue);
+    color: var(--white);
+    border: none;
+    border-radius: 9px;
+    padding: 13px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.order-button button:hover {
+    background: var(--navy);
+    transform: translateY(-2px);
+}
+
+/* =========================================
+   INFORMATION BOX / STATISTICS
+========================================= */
+
+.information-box {
+    background: var(--white);
+    padding: 22px;
+    min-height: 120px;
+
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    box-shadow: var(--shadow);
+}
+
+.information-box span {
+    display: block;
+    font-size: 11px;
+    color: var(--text-light);
+    letter-spacing: 0.5px;
+}
+
+.information-box p {
+    font-size: 25px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-top: 10px;
+}
+
+/* =========================================
+   FILTER BOX
+========================================= */
+
+.filter-box {
+    grid-column: 1 / -1;
+
+    background: var(--white);
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.filter-box input {
+    flex: 1;
+    min-width: 150px;
+}
+
+.filter-box input,
+.filter-box select {
+    height: 42px;
+    padding: 0 13px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--white);
+    color: var(--text);
+    outline: none;
+    font-size: 13px;
+}
+
+.filter-box input:focus,
+.filter-box select:focus {
+    border-color: var(--blue);
+}
+
+/* =========================================
+   TABLE PESANAN
+========================================= */
+
+.tabel-container {
+    grid-column: 1 / -1;
+
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    box-shadow: var(--shadow);
+
+    padding: 15px;
+    overflow-x: auto;
+}
+
+.table-detail {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 900px;
+}
+
+.table-detail thead {
+    background: #F8F9FC;
+}
+
+.table-detail th {
+    padding: 18px 12px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-light);
+    text-align: left;
+    white-space: nowrap;
+    border-bottom: 1px solid var(--border);
+}
+
+.table-detail td {
+    padding: 18px 12px;
+    font-size: 12px;
+    color: var(--text);
+    border-bottom: 1px solid var(--border);
+}
+
+.table-detail tbody tr:hover {
+    background: #F8FAFF;
+}
+
+.table-detail tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.column-btn {
+    text-align: center !important;
+}
+
+/* =========================================
+   PAGINATION
+========================================= */
+
+.page-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 10px 5px;
+    border-top: 1px solid var(--border);
+    margin-top: 5px;
+}
+
+.page-info span {
+    font-size: 12px;
+    color: var(--text-light);
+}
+
+.page-button {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.page-button button,
+.page-button a {
+    text-decoration: none;
+    border: 1px solid var(--border);
+    background: var(--white);
+    color: var(--text);
+    padding: 8px 12px;
+    border-radius: 7px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.page-button .button-page-active {
+    background: var(--blue);
+    color: var(--white);
+    border-color: var(--blue);
+}
+
+/* =========================================
+   MODAL BUAT PESANAN BARU
+========================================= */
+
+.new-order {
+    display: none;
+
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 7, 45, 0.45);
+    backdrop-filter: blur(4px);
+
+    justify-content: center;
+    align-items: center;
+
+    padding: 20px;
+    z-index: 200;
+}
+
+.new-order.show {
+    display: flex;
+}
+
+.form-order {
+    width: 100%;
+    max-width: 500px;
+    background: var(--white);
+
+    padding: 25px;
+    border-radius: 13px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.customer-name,
+.customer-telp {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-order label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #64748B;
+}
+
+.form-order input,
+.form-order select {
+    width: 100%;
+    height: 42px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0 12px;
+    font-size: 13px;
+    outline: none;
+    background: var(--white);
+    color: var(--text);
+}
+
+.form-order input:focus,
+.form-order select:focus {
+    border-color: var(--blue);
+}
+
+.layanan-berat,
+.biaya-status {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.layanan,
+.berat-order,
+.biaya,
+.status-pembayaran {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.button-new-order {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.button-new-order button {
+    padding: 11px 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.button-new-order button[type="submit"] {
+    background: var(--blue);
+    color: var(--white);
+}
+
+.button-new-order button[type="submit"]:hover {
+    background: var(--navy);
+}
+
+.button-new-order .cancel-btn {
+    background: #F1F3F7;
+    color: var(--text);
+}
+
+/* =========================================
+   MODAL DETAIL PESANAN
+========================================= */
+
+.detail-order {
+    display: none;
+
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 7, 45, 0.45);
+    backdrop-filter: blur(4px);
+
+    justify-content: center;
+    align-items: center;
+
+    padding: 20px;
+    z-index: 210;
+}
+
+.detail-order.show {
+    display: flex;
+}
+
+.id-order,
+.detail-order-customer,
+.detail-order-layanan,
+.detail-order-tanggal-masuk,
+.detail-order-target-selesai,
+.detail-order-status,
+.detail-order-tagihan {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+}
+
+.id-order {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+}
+
+.id-order strong {
+    color: var(--navy);
+    font-size: 17px;
+}
+
+.id-order span:last-child {
+    color: var(--text-light);
+    font-size: 12px;
+}
+
+.detail-order > div {
+    max-width: 450px;
+}
+
+.detail-order {
+    flex-direction: column;
+}
+
+.detail-order > div:not(.id-order) {
+    width: 100%;
+}
+
+.detail-order > div:first-child {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 15px;
+}
+
+.detail-order-customer > span:first-child,
+.detail-order-layanan > span:first-child,
+.detail-order-tanggal-masuk > span:first-child,
+.detail-order-target-selesai > span:first-child,
+.detail-order-status > span:first-child,
+.detail-order-tagihan > span:first-child {
+    color: var(--text-light);
+}
+
+.detail-order strong {
+    color: var(--navy);
+}
+
+.note {
+    background: #F4F6FA;
+    padding: 15px;
+    border-radius: 9px;
+    font-size: 12px;
+    color: var(--text-light);
+    margin-top: 15px;
+}
+
+.detail-order-button {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 15px;
+}
+
+.detail-order-button button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    background: var(--blue);
+    color: var(--white);
+    cursor: pointer;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1000px) {
+
+    .pesanan-content {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .pesanan-content h3 {
+        grid-column: 1 / 2;
+    }
+
+    .order-button {
+        grid-column: 2 / 3;
+    }
+
+    .information-box {
+        min-height: 110px;
+    }
+}
+
+@media (max-width: 650px) {
+
+    header {
+        padding: 0 15px;
+    }
+
+    .header-kiri {
+        gap: 12px;
+    }
+
+    .header-kiri h2 {
+        font-size: 18px;
+    }
+
+    .info-profile {
+        display: none;
+    }
+
+    .sidebar {
+        width: 220px;
+        transform: translateX(-100%);
+    }
+
+    .sidebar.show {
+        transform: translateX(0);
+    }
+
+    .pesanan-content {
+        margin-left: 0;
+        padding: 100px 15px 30px;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+
+    .pesanan-content h3 {
+        grid-column: 1 / -1;
+        font-size: 20px;
+    }
+
+    .order-button {
+        grid-column: 1 / -1;
+        justify-content: flex-start;
+    }
+
+    .information-box {
+        padding: 16px;
+    }
+
+    .information-box p {
+        font-size: 21px;
+    }
+
+    .filter-box {
+        flex-wrap: wrap;
+    }
+
+    .filter-box input {
+        flex-basis: 100%;
+    }
+
+    .filter-box select {
+        max-width: 100%;
+    }
+
+    .layanan-berat,
+    .biaya-status {
+        grid-template-columns: 1fr;
+    }
+
+    .form-order {
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+}
+
+.detail-order {
+    width: 450px;
+    max-width: calc(100% - 30px);
+    max-height: 90vh;
+    overflow-y: auto;
+
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    inset: auto;
+
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 25px;
+    border-radius: 13px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+}
+
+.detail-order::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 7, 45, 0.45);
+    backdrop-filter: blur(4px);
+    z-index: -1;
+}
+.sidebar.closed {
+    transform: translateX(-100%);
+}
+
+.pesanan-content.expanded {
+    margin-left: 0;
+}

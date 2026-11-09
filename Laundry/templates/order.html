@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="order.css">
+</head>
+<body>
+    <!-- PROFILE -->
+    <header>
+        <div class="header-kiri">
+            <h3>
+                My Laundry
+            </h3>
+            <h1>Halaman Pelanggan</h1>
+        </div>
+
+        <div class="profile">
+            <div class="foto-profile">
+                <img src="Rin Shima (志摩 リン).jpe" alt="potopropil">
+            </div>
+
+            <div class="info-profile">
+                <span>Admin Laundry</span>
+                <small>Administrator</small>
+            </div>
+            <button class="profile-button" onclick="bukatutupprofile()">⌄</button>
+            <div class="profile-page" id="profiledropdown">
+                <a href="pengaturan.html">Pengaturan</a>
+                <a href="logout.html">Log Out</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="order-content">
+        <section>
+            <div class="id-order-page">
+                <div class="header-progress-pager">                
+                    <span>ID-Pelanggan</span>
+                    <span>Target: Hari ini, 17.00</span>
+                </div>
+
+                <div class="layanan-harga-progres">
+                    <span>Laundry + Setrika</span>
+                    <span>Berat Estimasi: 10.Kg</span>
+                    <span>TOTAL TAGIHAN</span>
+                    <span>Rp 45.000</span>
+                </div>
+
+                <div class="step-by-step">
+                    <div class="idk-wht-is-this-class">
+                        <div class="step-one">
+                            <div>
+                                <!-- isi buletan atau kotak gitu -->
+                            </div>
+                            <span>1. Diterima</span>
+                        </div>
+
+                        <div class="step-two">
+                            <div>
+                                <!-- isi buletan atau kotak gitu -->
+                            </div>
+                            <span>2. Dicuci</span>
+                        </div>
+
+                        <div class="step-three">
+                            <div>
+                                <!-- isi buletan atau kotak gitu -->
+                            </div>
+                            <span>3. Siap Diambil</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="button-detail-order">
+                    <button type="button" onclick="openOrderDetail()">Lihat Detail Pesanan</button>
+                </div>
+            </div>
+        </section>
+        <section>
+            <span>Pilih Layanan Cepat</span>
+            <span>Klik Paket Untuk Langsung Membuat Pesanan Baru</span>
+
+            <div class="layanan-grid">
+                <div class="order-page">
+                    <button type="button" onclick="selectCategory('laundry',7000)">
+                        <span>Laundry</span>
+                        <span>Rp.7000/Kg</span>
+                    </button>
+                </div>
+
+                <div class="order-page">
+                    <button type="button" onclick="selectCategory('setrika',6000)">
+                        <span>Setrika</span>
+                        <span>Rp.6000/Kg</span>
+                    </button>
+                </div>
+
+                <div class="order-page">
+                    <button type="button" onclick="selectCategory('laundry-setrika',12000)">
+                        <span>Laundry + Setrika</span>
+                        <span>Rp.12.000/Kg</span>
+                    </button>
+                </div>
+
+                <div class="order-page">
+                    <button type="button" onclick="selectCategory('express',18000)">
+                        <span>Laundry + Setrika Express</span>
+                        <span>Rp.18.000/Kg</span>
+                    </button>
+                </div>
+            </div>
+
+            
+        </section>
+
+        <section>
+            <div class="history-header">
+                <h3>Riwayat Pesanan</h3>
+                <button>Lihat Semua</button>
+            </div>
+
+            <div class="box-histori">
+                <!-- RIWAYAT DARI DATABASE -->
+                <!-- ORDER ROW 1 -->
+                <div class="order-row">
+                    <div class="">
+                        <i></i>
+                    </div>
+                    <div class="text-left">
+                        <div class="id-order-history">#LND-8890</div>
+                        <div class="layanan-order-history">Laundry - 10 Kg - 01 Nov 2026</div>
+                    </div>
+
+                    <div class="text-right">
+                        <div class="total-harga">Rp 35.000</div>
+                        <div class="status">LUNAS & SELESAI</div>
+                    </div>
+                </div>
+                <!-- ORDER ROW 2 -->
+                <div class="order-row">
+                    <div class="">
+                        <i></i>
+                    </div>
+                    <div class="text-left">
+                        <div class="id-order-history">#LND-8890</div>
+                        <div class="layanan-order-history">Laundry - 10 Kg - 01 Nov 2026</div>
+                    </div>
+
+                    <div class="text-right">
+                        <div class="total-harga">Rp 35.000</div>
+                        <div class="status">LUNAS & SELESAI</div>
+                    </div>
+                </div>
+            </div>
+            
+        </section>
+    </main>
+
+    <!-- Bagian Order -->
+    <div class="modal-order hidden" id="orderModal">
+        <div class="modal-order-content">
+            <div class="modal-header">
+                <h3>Pesan Laundry Baru</h3>
+                <p>Silahkan Isi Detail Order</p>
+            </div>
+
+            <form onsubmit="handleFormSubmit(event)" action="">
+                <div class="layanan-order">
+                    <label for="">Pilih Layanan</label>
+                    <select name="layanan" id="modalServiceSelect">
+                        <option value="laundry">Laundry</option>
+                        <option value="setrika">Setrika</option>
+                        <option value="laundry-setrika">Laundry + Setrika</option>
+                        <option value="express">Laundry + Setrika Express</option>
+                    </select>
+                </div>
+
+                <div class="qty-payment-method">
+                    <div class="qty">   
+                        <label for="">Estimasi Qty/Kg</label>
+                        <input type="number" name="qty" min="1" step="0.1" required>
+                    </div>
+
+                    <div class="method-pay" id="metodeBayar">
+                        <label for="">Metode Bayar</label>
+                        <select name="" id="">
+                            <option value="cash">Tunai/COD</option>
+                            <option value="debit">Qris/Transfer Bank</option>
+                        </select>
+                    </div>
+
+                    <div class="adress">
+                        <label for="">Alamat Penjemputan</label>
+                        <textarea name="alamat" id="" placeholder="Tuliskan Alamat Penjemputan Dengan Benar Dan Lengkap.." required>Jl.Kenanga 1 No.149 01/05 Kec.Pancoran Mas Kel.Depok Jaya</textarea>
+                    </div>
+                </div>
+
+                <div class="btn">
+                    <div class="cancel-btn">
+                        <button type="button" onclick="closeOrderModal()">Batal</button>
+                    </div>
+
+                    <div class="submit-btn">
+                        <button type="submit">Buat Pesanan</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <footer>
+        <p>@2026 My Laundry Customer Portal. By Hyaseii</p>
+    </footer>
+</body>
+
+<script>
+        
+/* =========================
+   PROFILE DROPDOWN
+========================= */
+
+function bukatutupprofile() {
+    document.getElementById("profiledropdown")
+        .classList.toggle("show");
+}
+
+
+/* =========================
+   MODAL ORDER
+========================= */
+
+function openOrderModal() {
+    document.getElementById("orderModal")
+        .classList.remove("hidden");
+}
+
+function closeOrderModal() {
+    document.getElementById("orderModal")
+        .classList.add("hidden");
+}
+
+
+/* =========================
+   PILIH LAYANAN
+========================= */
+
+let selectedPrice = 0;
+
+function selectCategory(name, price) {
+
+    // Mengambil elemen select layanan
+    const serviceSelect = document.getElementById("modalServiceSelect");
+
+    // Mengubah pilihan layanan sesuai tombol
+    serviceSelect.value = name;
+
+    // Menyimpan harga layanan
+    selectedPrice = price;
+
+    // Membuka modal
+    openOrderModal();
+}
+
+
+/* =========================
+   DETAIL PESANAN
+========================= */
+
+function openOrderDetail() {
+
+    alert(
+        "DETAIL PESANAN #LND-9012\n\n" +
+        "- Status: Sedang Dicuci\n" +
+        "- Tahap: 2 dari 3\n" +
+        "- Total: Rp 28.000\n" +
+        "- Estimasi Selesai: Hari Ini, 17:00 WIB"
+    );
+
+}
+
+
+/* =========================
+   SUBMIT FORM ORDER
+========================= */
+
+function handleFormSubmit(event) {
+
+    // Mencegah halaman melakukan refresh
+    event.preventDefault();
+
+    // Mengambil elemen form
+    const form = event.target;
+
+    // Mengambil nilai input
+    const layanan = form.querySelector(
+        "#modalServiceSelect"
+    ).value;
+
+    const qty = Number(
+        form.querySelector('input[type="number"]').value
+    );
+
+    const metode = form.querySelector(
+        'select[name="metode"]'
+    ).value;
+
+    const alamat = form.querySelector(
+        "textarea"
+    ).value.trim();
+
+    // Validasi jumlah
+    if (!Number.isFinite(qty) || qty <= 0) {
+        alert("Masukkan jumlah berat yang valid!");
+        return;
+    }
+
+    // Validasi alamat
+    if (alamat === "") {
+        alert("Alamat penjemputan harus diisi!");
+        return;
+    }
+
+    // Menghitung total harga
+    const totalHarga = qty * selectedPrice;
+
+    // Menampilkan hasil pesanan
+    alert(
+        "PESANAN BERHASIL DIBUAT!\n\n" +
+        "Layanan: " + layanan + "\n" +
+        "Berat: " + qty + " Kg\n" +
+        "Metode Bayar: " + metode + "\n" +
+        "Total Harga: Rp " +
+        totalHarga.toLocaleString("id-ID") +
+        "\nAlamat: " + alamat
+    );
+
+    // Menutup modal
+    closeOrderModal();
+
+    // Mengosongkan form
+    form.reset();
+
+    // Reset harga layanan
+    selectedPrice = 0;
+}
+
+
+/* =========================
+   KLIK AREA LUAR MODAL
+========================= */
+
+document.getElementById("orderModal")
+    .addEventListener("click", function(event) {
+
+        // Jika yang diklik adalah background modal
+        if (event.target === this) {
+            closeOrderModal();
+        }
+
+    });
+
+
+/* =========================
+   TOMBOL ESCAPE
+========================= */
+
+document.addEventListener("keydown", function(event) {
+
+    if (event.key === "Escape") {
+        closeOrderModal();
+    }
+
+});
+
+document.getElementById("modalServiceSelect")
+    .addEventListener("change", function() {
+
+        const hargaLayanan = {
+            "laundry": 7000,
+            "setrika": 6000,
+            "laundry-setrika": 12000,
+            "express": 12000
+        };
+
+        selectedPrice = hargaLayanan[this.value];
+
+    });
+
+</script>
+</html>

@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesanan</title>
+    <link rel="stylesheet" href="../static/css/pesanan.css">
+</head>
+<body>
+    <!-- PROFILE -->
+    <header>
+        <div class="header-kiri">
+            <button class="menu-button" onclick="bukatutupsidebar()">☰</button>
+            <h2>
+                My Laundry
+            </h2>
+        </div>
+
+        <div class="profile">
+            <div class="foto-profile">
+                <img src="Rin Shima (志摩 リン).jpe" alt="potopropil">
+            </div>
+
+            <div class="info-profile">
+                <span>Admin Laundry</span>
+                <small>Administrator</small>
+            </div>
+            <button class="profile-button" onclick="bukatutupprofile()">⌄</button>
+            <div class="profile-page" id="profiledropdown">
+                <a href="pengaturan.html">Pengaturan</a>
+                <a href="logout.html">Log Out</a>
+            </div>
+        </div>
+    </header>
+
+
+    <!-- SIDEBAR -->
+    <div class="sidebar" id="sidebar">
+            <h2>MENU</h2>
+            <a href="index.html" >Dashboard</a>
+            <a href="pesanan.html" class="active" >Pesanan</a>
+            <a href="pembayaran.html">Pembayaran</a>
+
+        </div>
+    <!-- Main -->
+    <main class="pesanan-content" id="Konten">
+        <!-- Kotak Kotak konten -->
+        <h3>Daftar Pesanan</h3>
+        <div class="order-button">
+            <button>Buat Pesanan</button>
+        </div>
+
+        <div class="information-box">
+            <span><strong>BARU</strong></span>
+            <p>12</p>
+        </div>
+
+        <div class="information-box">
+            <span><strong>SEDANG DICUCI</strong></span>
+            <p>8</p>
+        </div>
+
+        <div class="information-box">
+            <span><strong>SELESAI</strong></span>
+            <p>2</p>
+        </div>
+
+        <div class="information-box">
+            <span><strong>SIAP DIAMBIL</strong></span>
+            <p>5</p>
+        </div>
+
+        <div class="filter-box">
+            <input type="search" name="" id="" placeholder="Cari ID Pelanggan">
+            <div>
+                <select name="" id="">
+                    <option value="all-status">Semua Status</option>
+                    <option value="baru">Baru</option>
+                    <option value="diproses">Diproses</option>
+                    <option value="selesai">Packing</option>
+                    <option value="siap diambil">Siap Diambil</option>
+                </select>
+            </div>
+            <div>
+                <select name="" id="">
+                    <option value="all-service">Semua Layanan</option>
+                    <option value="baru">Laundry</option>
+                    <option value="diproses">Setrika</option>
+                    <option value="selesai">Setrika + Laundry   </option>
+                    <option value="siap diambil">Siap Diambil</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="tabel-container">
+            <div class="">
+                <table class="table-detail">
+                    <thead>
+                        <tr class="table-row">
+                            <th class="column">ID PELANGGAN</th>
+                            <th class="column">PELANGGAN</th>
+                            <th class="column">LAYANAN</th>
+                            <th class="column">QTY/BERAT</th>
+                            <th class="column">TGL MASUK</th>
+                            <th class="column">TARGET SELESAI</th>
+                            <th class="column">STATUS PENGERJAAN</th>
+                            <th class="column">PEMBAYARAN</th>
+                            <th class="column-btn">AKSI</th>
+                        </tr>
+                    </thead>
+
+                    <tbody class="order-detail">
+                        <!-- DYNAMIC CONTENT PYTHON -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="page-container">
+                <div class="page-info">
+                    <span>Total Pesanan<strong>10</strong></span>
+                </div>
+
+                <div class="page-button">
+                    <button class="button-page">Prev</button>
+                    <a href="" class="button-page-active">1</a>
+                    <button class="button-page">Next</button>
+                </div>
+
+            </div>
+        </div>
+
+
+
+            <!-- <div class="column">
+                <span>1</span>
+                <span><strong>Razan Maulana Hakim</strong>085692991035</span>
+                <span>Setrika</span>
+                <span><strong>10.0 Kg</strong></span>
+                <span>04 Nov 2026</span>
+                <span>05 Nov 2026</span>
+                <span>Diproses</span>
+                <span>Lunas</span>
+                <span>
+                    <button>Deskripsi Pemesan</button>
+                    <button>Whatsapp</button>
+                    <button>Toggle Status</button>
+                </span>
+            </div> -->
+
+        </div>
+    </main>
+
+    <!-- BUAT PESANAN BARU -->
+    <div class="new-order">
+        <div class="">
+            <form action="" class="form-order">
+                <h3>Input Pesanan Baru</h3>
+                <div class="customer-name">
+                    <label>NAMA PELANGGAN</label>
+                    <input type="text" name="" id="" placeholder="Contoh : Budi Santoso">
+                </div>
+
+                <div class="customer-telp">
+                    <label>NO. WHATSAPP</label>                   
+                    <input type="text" name="" id="" placeholder="Contoh : 085692991035">
+                </div>
+
+                <div class="layanan-berat">
+                    <div class="layanan">
+                        <label for="">LAYANAN</label>
+                        <select name="" id="">
+                            <option value="setrika">Setrika</option>
+                            <option value="cuci">Laundry</option>
+                            <option value="setrika-laundry">Setrika + Laundry</option>
+                        </select>
+                    </div>
+
+                    <div class="berat-order">
+                        <label for="">BERAT (KG)</label>
+                        <input type="number" name="" id="" placeholder="5.0">
+                    </div>
+                </div>
+
+                <div class="biaya-status">
+                    <div class="biaya">
+                        <label>BIAYA ESTIMASI</label>
+                        estimasi harga
+                    </div>
+
+                    <div class="status-pembayaran">
+                        <label>STATUS PEMBAYARAN</label>
+                        <select name="" id="">
+                            <option value="lunas">Lunas</option>
+                            <option value="belum-dibayar">Belum Lunas</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="button-new-order">
+                    <button type="button" class="cancel-btn">
+                        Batal
+                    </button>
+                    <button type="submit" class="save-btn">
+                        Simpan Pesanan
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- DETAIL ORDER -->
+    <div class="detail-order">
+        <div class="id-order">
+            <span><strong>ID-Order</strong></span>
+            <span>Detail Pesanan</span>
+        </div>
+
+        <div class="detail-order-customer">
+            <span>Pelanggan</span>
+            <span><strong>--</strong></span>
+        </div>
+        
+        <div class="detail-order-layanan">
+            <span>Layanan / Berat</span>
+            <div class="berat-layanan">
+                <span><strong>--</strong></span>
+                <span><strong>--</strong></span>
+            </div>
+        </div>
+
+        <div class="detail-order-tanggal-masuk">
+            <span>Tanggal Masuk</span>
+            <span><strong>--</strong></span>
+        </div>
+
+        <div class="detail-order-target-selesai">
+            <span>Target Selesai</span>
+            <span><strong>--</strong></span>
+        </div>
+
+        <div class="detail-order-status">
+            <span>Status Pengerjaan</span>
+            <span><strong>--</strong></span>
+        </div>
+
+        <div class="detail-order-tagihan">
+            <span>Total Tagihan</span>
+            <span><strong>--</strong></span>
+        </div>
+        
+        <div class="note">
+            <span>--</span>
+        </div>
+
+        <div class="detail-order-button">
+            <button type="button" class="detail-order-button-close">
+                Tutup
+            </button>
+        </div>
+    </div>
+    
+</body>
+
+<script>
+        function bukatutupsidebar() {
+            const sidebar = document.getElementById("sidebar");
+            const konten = document.getElementById("Konten");
+
+            if (window.innerWidth <= 650) {
+                sidebar.classList.toggle("show");
+            } else {
+                sidebar.classList.toggle("closed");
+                konten.classList.toggle("expanded");
+            }
+        }
+
+        function bukatutupprofile() {
+            document.getElementById("profiledropdown")
+                .classList.toggle("show");
+        }
+
+        // MEMBUKA MODAL PESANAN
+        const tombolBuat = document.querySelector(".order-button button");
+        const modalPesanan = document.querySelector(".new-order");
+
+        tombolBuat.addEventListener("click", function() {
+            modalPesanan.classList.add("show");
+        });
+
+        // MENUTUP MODAL PESANAN
+        const tombolBatal = document.querySelector(".cancel-btn");
+
+        tombolBatal.addEventListener("click", function() {
+            modalPesanan.classList.remove("show");
+        });
+
+        // MENUTUP MODAL DETAIL
+        const tombolTutup = document.querySelector(".detail-order-button-close");
+
+        tombolTutup.addEventListener("click", function() {
+            document.querySelector(".detail-order").classList.remove("show");
+        });
+
+</script>
+</html>

@@ -1,0 +1,606 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Sidebar */
+/* ================== */
+/* DASHBOARD */
+/* ================== */
+
+/* COLOR PALETTE */
+/* #00072D  #051650 #0a2472 #123499 #ffffff*/
+
+/* BACKGROUND */
+
+.menu-btn {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 10;
+    border: none;
+    background: transparent;
+    font-size: 26px;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 50%;
+}
+
+.menu-btn:hover {
+    background: #e0e0e0;
+}
+
+.testo {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f1f5f9;
+}
+
+/* DASHBOARD */
+.dashboard {
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* JUDUL DASHBOARD */
+.cuma-tes {
+    color: #115e59;
+    margin-left: 250px;
+    font-size: 28px;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 220px;
+    height: 100vh;
+    background-color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 20px 15px;
+    box-sizing: border-box;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+}
+
+/* JUDUL MENU */
+.sidebar h2 {
+    color: #0d9488;
+    font-size: 22px;
+    margin-bottom: 30px;
+}
+
+/* LINK SIDEBAR */
+.sidebar a {
+    display: block;
+    padding: 13px 15px;
+    margin-bottom: 8px;
+    text-decoration: none;
+    color: #475569;
+    font-size: 14px;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+/* EFEK SAAT MOUSE DIARAHKAN */
+.sidebar a:hover {
+    background-color: #f0fdfa;
+    color: #0d9488;
+}
+
+/* TAMPILAN HP */
+@media (max-width: 600px) {
+    .sidebar {
+        width: 200px;
+    }
+
+    .cuma-tes {
+        margin-left: 0;
+        font-size: 24px;
+    }
+}
+
+
+/* ================== */
+/* LOGIN */
+/* ================== */
+
+/* COLOR PALETTE */
+/* #00072D  #051650 #0a2472 #123499 #5caf73*/
+
+
+/* BACKGROUND HALAMAN LOGIN */
+.back-login {
+    min-height: 100vh;
+    background-color: #f1f5f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* KOTAK LOGIN */
+.login {
+    background-color: white;
+    width: 100%;
+    max-width: 380px;
+    padding: 35px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    box-sizing: border-box;
+}
+
+/* JUDUL LOGIN */
+.h2-log {
+    text-align: center;
+    color: #115e59;
+    font-size: 26px;
+    margin-top: 0;
+    margin-bottom: 30px;
+}
+
+/* JARAK INPUT */
+.form-log {
+    margin-bottom: 22px;
+}
+
+/* INPUT USERNAME DAN PASSWORD */
+.form-log input {
+    width: 100%;
+    padding: 12px 2px;
+    border: none;
+    border-bottom: 2px solid #cbd5e1;
+    outline: none;
+    font-size: 14px;
+    background-color: transparent;
+    box-sizing: border-box;
+    transition: 0.3s;
+}
+
+/* WARNA GARIS SAAT INPUT DIKLIK */
+.form-log input:focus {
+    border-bottom-color: #0d9488;
+}
+
+/* WARNA PLACEHOLDER */
+.form-log input::placeholder {
+    color: #94a3b8;
+}
+
+/* POSISI TOMBOL */
+.button-log {
+    margin-top: 30px;
+}
+
+/* TOMBOL LOGIN */
+.log-button {
+    width: 100%;
+    padding: 13px;
+    background-color: #0d9488;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* EFEK SAAT MOUSE DIARAHKAN KE TOMBOL */
+.log-button:hover {
+    background-color: #0f766e;
+}
+
+/* LINK REGISTER */
+.register-text {
+    display: block;
+    text-align: center;
+    color: #0d9488;
+    font-size: 13px;
+    text-decoration: none;
+    margin-top: 5px;
+    transition: 0.3s;
+}
+
+/* EFEK LINK REGISTER */
+.register-text:hover {
+    color: #0f766e;
+    text-decoration: underline;
+}
+
+/* GARIS PEMISAH */
+.login hr {
+    border: none;
+    border-top: 1px solid #e2e8f0;
+    margin-top: 22px;
+    margin-bottom: 0;
+}
+
+/* TAMPILAN HP */
+@media (max-width: 480px) {
+    .login {
+        padding: 25px;
+    }
+
+    .h2-log {
+        font-size: 23px;
+    }
+}
+
+
+/* ================== */
+/* REGISTER */
+/* ================== */
+
+/* COLOR PALETTE */
+/* #00072D  #051650 #0a2472 #123499 #5caf73*/
+
+
+/* BACKGROUND REGISTER */
+
+/* BACKGROUND REGISTER */
+.back-register {
+    min-height: 100vh;
+    background-color: #f1f5f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* KOTAK REGISTER */
+.register {
+    width: 100%;
+    max-width: 400px;
+    background-color: white;
+    padding: 40px 50px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    box-sizing: border-box;
+}
+
+/* JUDUL REGISTER */
+.h2-reg {
+    text-align: center;
+    font-size: 26px;
+    color: #115e59;
+    margin-top: 10px;
+    margin-bottom: 38px;
+}
+
+/* JARAK ANTAR INPUT */
+.form-reg {
+    margin-bottom: 10px;
+}
+
+/* INPUT GARIS BAWAH */
+.form-reg input {
+    width: 100%;
+    padding: 10px 8px;
+    border: none;
+    border-bottom: 1px solid #cbd5e1;
+    outline: none;
+    background-color: transparent;
+    font-size: 14px;
+    box-sizing: border-box;
+    transition: 0.3s;
+}
+
+/* WARNA PLACEHOLDER */
+.form-reg input::placeholder {
+    color: #64748b;
+}
+
+/* GARIS BERUBAH WARNA SAAT DIKLIK */
+.form-reg input:focus {
+    border-bottom: 2px solid #0d9488;
+}
+
+/* TOMBOL REGISTER */
+.register .log-button {
+    width: 100%;
+    padding: 13px;
+    margin-top: 0;
+    margin-bottom: 8px;
+    background-color: #0d9488;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* EFEK HOVER TOMBOL */
+.register .log-button:hover {
+    background-color: #0f766e;
+}
+
+/* LINK LOGIN */
+.login-text {
+    display: block;
+    text-align: center;
+    color: #0d9488;
+    font-size: 13px;
+    text-decoration: none;
+    margin-top: 5px;
+    margin-bottom: 18px;
+}
+
+/* EFEK HOVER LINK LOGIN */
+.login-text:hover {
+    color: #0f766e;
+    text-decoration: underline;
+}
+
+/* LINK TESTING */
+.register > a:not(.login-text) {
+    display: block;
+    text-align: center;
+    color: #64748b;
+    font-size: 12px;
+    text-decoration: none;
+    margin-bottom: 15px;
+}
+
+/* HOVER LINK TESTING */
+.register > a:not(.login-text):hover {
+    color: #0d9488;
+}
+
+/* GARIS PEMISAH */
+.register hr {
+    border: none;
+    border-top: 1px solid #e2e8f0;
+    margin-top: 10px;
+}
+
+/* TAMPILAN HP */
+@media (max-width: 480px) {
+    .register {
+        padding: 30px 25px;
+    }
+
+    .h2-reg {
+        font-size: 23px;
+        margin-bottom: 30px;
+    }
+}
+
+
+/* ================== */
+/* ORDER */
+/* ================== */
+
+/* COLOR PALETTE */
+/* #00072D  #051650 #0a2472 #123499 #5caf73*/
+
+/* Membuat form berada di tengah */
+.order-page {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Kotak utama form */
+.ordering {
+    background-color: white;
+    width: 100%;
+    max-width: 450px;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Bagian judul */
+.order-title {
+    margin-bottom: 25px;
+}
+
+.order-title h3 {
+    font-size: 25px;
+    color: #115e59;
+    margin: 0 0 8px;
+}
+
+.order-title p {
+    font-size: 14px;
+    color: #64748b;
+    margin-bottom: 20px;
+}
+
+.order-title hr {
+    border: none;
+    border-top: 1px solid #e2e8f0;
+}
+
+/* Jarak setiap bagian form */
+.grup-form {
+    margin-bottom: 22px;
+}
+
+/* Judul jenis layanan dan pembayaran */
+.judul-layanan {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Kotak pilihan layanan */
+.pilihan-layanan {
+    margin-bottom: 10px;
+}
+
+/* Desain masing-masing pilihan */
+.pilihan {
+    display: flex;
+    align-items: center;
+    padding: 13px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+/* Menghilangkan tampilan tombol radio */
+.pilihan input[type="radio"] {
+    display: none;
+}
+
+/* Tulisan di dalam pilihan */
+.pilihan strong {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.pilihan small {
+    display: block;
+    font-size: 12px;
+    color: #64748b;
+}
+
+/* Warna ketika mouse diarahkan ke pilihan */
+.pilihan:hover {
+    background-color: #f0fdfa;
+    border-color: #0d9488;
+}
+
+/* Warna pilihan yang sedang dipilih */
+.pilihan:has(input[type="radio"]:checked) {
+    background-color: #f0fdfa;
+    border: 2px solid #0d9488;
+}
+
+/* Input berat dan jumlah pakaian */
+.input-form {
+    width: 100%;
+    padding: 12px;
+    margin-top: 8px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+}
+
+/* Warna garis input saat diklik */
+.input-form:focus {
+    border-color: #0d9488;
+}
+
+/* Kotak estimasi harga */
+.estimasi {
+    background-color: #f0fdfa;
+    border: 1px solid #ccfbf1;
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 15px;
+}
+
+.estimasi span {
+    display: block;
+    font-size: 13px;
+    color: #0f766e;
+    margin-bottom: 8px;
+}
+
+.estimasi strong {
+    font-size: 24px;
+    color: #115e59;
+}
+
+/* Tombol hitung estimasi */
+.tombol-estimasi {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 25px;
+    background-color: white;
+    color: #0d9488;
+    border: 1px solid #0d9488;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* Efek hover tombol estimasi */
+.tombol-estimasi:hover {
+    background-color: #f0fdfa;
+}
+
+/* Pilihan metode pembayaran */
+.pilihan-bayaran {
+    display: inline-block;
+    margin-right: 15px;
+    margin-bottom: 8px;
+    padding: 12px 15px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* Menghilangkan radio pembayaran */
+.pilihan-bayaran input[type="radio"] {
+    display: none;
+}
+
+/* Menandai pembayaran yang dipilih */
+.pilihan-bayaran:has(input[type="radio"]:checked) {
+    background-color: #f0fdfa;
+    border: 1px solid #0d9488;
+    color: #0f766e;
+}
+
+/* Tombol buat pesanan */
+.tombol-pesan {
+    width: 100%;
+    padding: 14px;
+    background-color: #0d9488;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+/* Efek hover tombol pesan */
+.tombol-pesan:hover {
+    background-color: #0f766e;
+}
+
+/* Tulisan kecil di bawah tombol */
+.catatan {
+    text-align: center;
+    font-size: 12px;
+    color: #94a3b8;
+    margin-top: 18px;
+    margin-bottom: 0;
+}
+
+/* Tampilan untuk HP */
+@media (max-width: 480px) {
+    .ordering {
+        padding: 20px;
+    }
+
+    .order-title h3 {
+        font-size: 22px;
+    }
+
+    .pilihan-bayaran {
+        margin-right: 5px;
+        padding: 10px;
+    }
+}

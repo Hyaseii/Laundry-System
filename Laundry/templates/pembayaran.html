@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pembayaran</title>
+    <link rel="stylesheet" href="../static/css/pembayaran.css">
+</head>
+<body>
+    <!-- PROFILE -->
+    <header>
+        <div class="header-kiri">
+            <button class="menu-button" onclick="bukatutupsidebar()">☰</button>
+            <h2>
+                My Laundry
+            </h2>
+        </div>
+
+        <div class="profile">
+            <div class="foto-profile">
+                <img src="Rin Shima (志摩 リン).jpe" alt="potopropil">
+            </div>
+
+            <div class="info-profile">
+                <span>Admin Laundry</span>
+                <small>Administrator</small>
+            </div>
+            <button class="profile-button" onclick="bukatutupprofile()">⌄</button>
+            <div class="profile-page" id="profiledropdown">
+                <a href="pengaturan.html">Pengaturan</a>
+                <a href="logout.html">Log Out</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar" id="sidebar">
+            <h2>MENU</h2>
+            <a href="index.html" >Dashboard</a>
+            <a href="pesanan.html" >Pesanan</a>
+            <a href="pembayaran.html" class="active">Pembayaran</a>
+        </div>
+    
+    <!-- MAIN -->
+    <main class="pembayaran-content" id="Konten">  
+        <h3>Manajemen Pembayaran</h3>
+        <div class="struk-button">
+            <button>Catat Pembayaran</button>
+        </div>
+
+        <div class="information-box">
+            <span><strong>TOTAL PEMASUKAN</strong></span>
+            <p>Rp.100.000</p>
+        </div>
+
+        <div class="information-box">
+            <span><strong>BELUM DIBAYAR</strong></span>
+            <p>Rp.40.000</p>
+        </div>
+
+        <div class="information-box">
+            <span><strong>NON TUNAI / QRIS</strong></span>
+            <p>Rp.70.000</p>
+        </div>
+
+        <div class="information-box">
+            <span><strong>TUNAI (CASH)</strong></span>
+            <p>Rp.30.000</p>
+        </div>
+
+        <div class="filter-box">
+            <input type="search" name="" id="" placeholder="Cari No. Invoice atau Nama">
+
+            <div class="filter-option">
+                <select name="" id="">
+                    <option value="all-methods">Semua Metode</option>
+                    <option value="cash">Tunai</option>
+                    <option value="debit">Non Tunai</option>
+                </select>
+            </div>
+
+            <div class="filter-option">
+                <select name="" id="">
+                    <option value="all-status">Semua Status</option>
+                    <option value="clear-payment">Lunas</option>
+                    <option value="non-clear-payment">Belum Lunas</option>
+                </select>
+            </div>
+
+            <div class="filter-option">
+                <select name="" id="">
+                    <option value="month">Bulan Ini</option>
+                    <option value="week">Minggu Ini</option>
+                    <option value="day">Hari Ini</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="tabel-container">
+            <div class="">
+                <table class="table-detail">
+                    <thead>
+                        <tr class="table-row">
+                            <th class="column">NO. INVOICE</th>
+                            <th class="column">PELANGGAN</th>
+                            <th class="column">TANGGAL & WAKTU</th>
+                            <th class="column">METODE BAYAR</th>
+                            <th class="column">NOMINAL TAGIHAN</th>
+                            <th class="column">STATUS</th>
+                            <th class="column">AKSI</th>
+                        </tr>
+                    </thead>
+
+                    <tbody class="payment-detail">
+                        <!-- DYNAMIC CONTENT PYTHON -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="page-container">
+                <div class="page-info">
+                    <span>Total Pesanan<strong>10</strong></span>
+                </div>
+
+                <div class="page-button">
+                    <button class="button-page">Prev</button>
+                    <a href="" class="button-page-active">1</a>
+                    <button class="button-page">Next</button>
+                </div>
+            </div>
+
+
+        </div>
+    </main>
+
+    <!-- BUAT CATATAN PEMBAYARAN BARU -->
+    <div class="new-payment-history">
+        <div class="">
+            <form action="" class="form-payment">
+                <h3>Catat Pembayaran Baru</h3>
+                <div class="customer-id">
+                    <label>PILIH ID PESANAN / PELANGGAN</label>
+                    <select name="" id="">
+                        <option value="">--Pilih Pesanan--</option>
+                        <option value="">Testing</option>
+                    </select>
+                </div>
+
+                <div class="pembayaran-bayar">
+                    <div class="customer-pembayaran">
+                        <label>JENIS PEMBAYARAN</label>
+                        <select name="" id="">
+                            <option value="">Pelunasan Penuh</option>
+                            <option value="">Cicilan</option>
+                        </select>
+                    </div>
+                    
+                    <div class="customer-bayaran">
+                        <label>JUMLAH BAYAR (RP)</label>
+                        <input type="number" placeholder="0">
+                    </div>
+                </div>
+
+                <div class="metode-status">
+                    <div class="metode">
+                        <label>METODE PEMBAYARAN</label>
+                        <select name="" id="">
+                            <option value="">Cash</option>
+                            <option value="">Debit</option>
+                        </select>
+                    </div>
+                    
+                    <div class="status">
+                        <label>JUMLAH BAYAR (RP)</label>
+                        <select name="" id="">
+                            <option value="">Lunas</option>
+                            <option value="">Menunggu Verifikasi</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="note">
+                    <label for="">CATATAN TAMBAHAN (OPSIONAL)</label>
+                    <input type="text" placeholder="Contoh : Kembalian Rp.5000 dll.">
+                </div>
+
+                <div class="button-new-payment">
+                    <button type="button" class="cancel-btn">
+                        Batal
+                    </button>
+                    <button type="submit" class="save-btn">
+                        Simpan Transaksi
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- STRUK INVOICE -->
+    <div class="Invoice-page">
+        <div class="">
+            <div class="title-invoice">
+                <h3>Invoice Pembayaran</h3>
+            </div>
+
+            <div class="header-invoice">
+                <h2>MY LAUNDRY</h2>
+                <p>Jl.Kenanga 1 No.149, Depok</p>
+                <p>Telp/WA: 0856-9299-1035</p>
+            </div>
+
+            <div class="detail-invoice">
+                <div class="data-box">  
+                    <span>No.Invoice</span>
+                    <span>ID-Invoice</span>
+                </div>
+
+                <div class="data-box">  
+                    <span>ID Pesanan</span>
+                    <span>ID-----</span>
+                </div>
+
+                <div class="data-box">  
+                    <span>Tanggal:</span>
+                    <span>-----</span>
+                </div>
+
+                <div class="data-box">  
+                    <span>Pelanggan</span>
+                    <span>-------</span>
+                </div>
+                
+                <div class="data-box">  
+                    <span>Metode</span>
+                    <span>------</span>
+                </div>
+            </div>
+
+            <div class="item-detail">
+                <table class="item-table">
+                    <thead>
+                        <tr class="table-row-item">
+                            <th class="item-left">Layanan</th>
+                            <th class="item-mid">Qty</th>
+                            <th class="item-right">Subtotal</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <!-- DYNAMIC ITEM -->
+                        <p>tes</p>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="summary">
+                <div class="detail-summary">
+                    <span>Subtotal</span>
+                    <span>--</span>
+                </div>
+
+                <div class="detail-summary">
+                    <span>Diskon/Promo</span>
+                    <span>--</span>
+                </div>
+
+                <div class="detail-summary">
+                    <span>TOTAL BAYAR</span>
+                    <span>--</span>
+                </div>
+
+                <div class="detail-summary">
+                    <span>Status Pembayaran</span>
+                    <span>--</span>
+                </div>
+            </div>
+
+            <span>---Terimakasih Atas Kepercayaan Anda-</span>
+        </div>
+
+        <div class="print-invoice">
+            <button type="submit" class="print-invoice-btn">Cetak Struk</button>
+        </div>
+
+        <div class="cancel-print">
+            <button type="button" class="cancel-print-btn">Batal</button>
+        </div>
+    </div>
+</body>
+
+<script>
+        function bukatutupsidebar() {
+            const sidebar = document.getElementById("sidebar");
+            const konten = document.getElementById("Konten");
+
+            if (window.innerWidth <= 650) {
+                sidebar.classList.toggle("show");
+            } else {
+                sidebar.classList.toggle("closed");
+                konten.classList.toggle("expanded");
+            }
+        }
+
+        function bukatutupprofile() {
+            document.getElementById("profiledropdown")
+                .classList.toggle("show");
+        }
+
+        // MEMBUKA MODAL PESANAN
+        const tombolBuat = document.querySelector(".struk-button button");
+        const modalPesanan = document.querySelector(".new-payment-history");
+
+        tombolBuat.addEventListener("click", function() {
+            modalPesanan.classList.add("show");
+        });
+
+        // MENUTUP MODAL PESANAN
+        const tombolBatal = document.querySelector(".cancel-btn");
+
+        tombolBatal.addEventListener("click", function() {
+            modalPesanan.classList.remove("show");
+        });
+
+        // MENUTUP MODAL DETAIL
+        const tombolTutup = document.querySelector(".cancel-print-btn");
+
+        tombolTutup.addEventListener("click", function() {
+            document.querySelector(".Invoice-page").classList.remove("show");
+        });
+</script>
+</html>

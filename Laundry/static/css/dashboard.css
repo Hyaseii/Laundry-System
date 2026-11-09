@@ -1,0 +1,428 @@
+
+/* =========================
+   RESET DASAR
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f6fa;
+    color: #333;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+header {
+    width: 100%;
+    height: 75px;
+    background-color: #ffffff;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 30px;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    z-index: 100;
+
+    border-bottom: 1px solid #e5e7eb;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.header-kiri {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.header-kiri h2 {
+    font-size: 23px;
+    color: #333;
+}
+
+/* HAMBURGER */
+
+.menu-button {
+    border: none;
+    background: transparent;
+
+    font-size: 27px;
+    color: #333;
+
+    cursor: pointer;
+
+    padding: 8px 12px;
+    border-radius: 8px;
+
+    transition: 0.2s;
+}
+
+.menu-button:hover {
+    background-color: #f0f0f0;
+}
+
+/* =========================
+   PROFILE KANAN ATAS
+========================= */
+
+.profile {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.foto-profile {
+    width: 42px;
+    height: 42px;
+
+    border-radius: 50%;
+    background-color: #e3e8f5;
+
+    overflow: hidden;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.foto-profile img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.info-profile {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.info-profile span {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+}
+
+.info-profile small {
+    font-size: 12px;
+    color: #888;
+}
+
+.profile-button {
+    border: none;
+    background: transparent;
+
+    font-size: 22px;
+    cursor: pointer;
+
+    padding: 5px 8px;
+    border-radius: 6px;
+}
+
+.profile-button:hover {
+    background-color: #f0f0f0;
+}
+
+/* DROPDOWN PROFILE */
+
+.profile-page {
+    display: none;
+
+    position: absolute;
+    top: calc(100% + 15px);
+    right: 0;
+
+    width: 190px;
+
+    background-color: #ffffff;
+
+    border-radius: 12px;
+    border: 1px solid #eeeeee;
+
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+
+    padding: 8px;
+
+    z-index: 200;
+}
+
+.profile-page.show {
+    display: block;
+}
+
+.profile-page a {
+    display: block;
+
+    text-decoration: none;
+    color: #333;
+
+    padding: 12px;
+    border-radius: 8px;
+
+    font-size: 14px;
+
+    transition: 0.2s;
+}
+
+.profile-page a:hover {
+    background-color: #e9edff;
+    color: #4256ac;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar {
+    position: fixed;
+
+    top: 75px;
+    left: 0;
+
+    width: 240px;
+    height: calc(100vh - 75px);
+
+    background-color: #ffffff;
+
+    padding: 25px 15px;
+
+    overflow-y: auto;
+
+    border-right: 1px solid #e5e7eb;
+
+    transition: transform 0.3s ease;
+
+    z-index: 50;
+}
+
+/* JUDUL MENU */
+
+.sidebar h2 {
+    font-size: 13px;
+    font-weight: normal;
+
+    color: #999;
+
+    margin: 5px 12px 20px;
+
+    letter-spacing: 1.5px;
+}
+
+/* LINK SIDEBAR */
+
+.sidebar a {
+    display: block;
+
+    text-decoration: none;
+    color: #555;
+
+    padding: 14px 15px;
+    margin-bottom: 8px;
+
+    border-radius: 10px;
+
+    font-size: 15px;
+
+    transition: 0.2s;
+}
+
+/* HOVER MENU */
+
+.sidebar a:hover {
+    background-color: #e9edff;
+    color: #4256ac;
+
+    padding-left: 20px;
+}
+
+/* MENU AKTIF */
+
+.sidebar a.active {
+    background-color: #e9edff;
+    color: #4256ac;
+
+    font-weight: bold;
+}
+
+/* SIDEBAR DITUTUP */
+
+.sidebar.closed {
+    transform: translateX(-100%);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 600px) {
+
+    header {
+        padding: 0 12px;
+    }
+
+    .header-kiri {
+        gap: 8px;
+    }
+
+    .header-kiri h2 {
+        font-size: 18px;
+    }
+
+    .info-profile {
+        display: none;
+    }
+
+    .profile {
+        gap: 5px;
+    }
+
+    .sidebar {
+        width: 220px;
+    }
+
+}
+
+
+/* =========================
+   KONTEN DASHBOARD
+========================= */
+.content-dashboard {
+    margin-left: 240px;
+    padding: 105px 30px 30px;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 22px;
+    transition: margin-left 0.3s ease;
+}
+
+/* Konten melebar ketika sidebar ditutup */
+.content-dashboard.expanded {
+    margin-left: 0;
+}
+
+/* =========================
+   KOTAK INFORMASI
+========================= */
+.information-box {
+    background-color: #ffffff;
+    padding: 25px 22px;
+    border-radius: 14px;
+    min-height: 125px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
+    border: 1px solid #eeeeee;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.information-box span {
+    display: block;
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 18px;
+}
+
+.information-box p {
+    font-size: 25px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* =========================
+   KOTAK GRAFIK
+========================= */
+.information-chart {
+    grid-column: span 2;
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 14px;
+    min-height: 300px;
+    border: 1px solid #eeeeee;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
+}
+
+.information-chart p {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 25px;
+    color: #444;
+}
+
+.information-chart canvas {
+    width: 100%;
+    max-height: 230px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+/* Laptop kecil dan tablet */
+@media (max-width: 1000px) {
+    .content-dashboard {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .information-chart {
+        grid-column: span 2;
+    }
+}
+
+/* HP */
+@media (max-width: 600px) {
+    header {
+        padding: 0 12px;
+    }
+
+    .header-kiri {
+        gap: 8px;
+    }
+
+    .header-kiri h2 {
+        font-size: 18px;
+    }
+
+    .info-profile {
+        display: none;
+    }
+
+    .profile {
+        gap: 5px;
+    }
+
+    .sidebar {
+        width: 220px;
+    }
+
+    .content-dashboard {
+        margin-left: 0;
+        padding: 95px 15px 20px;
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .content-dashboard.expanded {
+        margin-left: 0;
+    }
+
+    .information-chart {
+        grid-column: span 1;
+        padding: 18px;
+    }
+
+    .information-box {
+        min-height: 110px;
+    }
+}
+
