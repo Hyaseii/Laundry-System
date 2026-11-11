@@ -1,32 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Login - My Laundry</title>
+    <link rel="stylesheet" href="../static/css/login.css">
 </head>
 <body>
     <div class="back-login">
         <form class="login" method="POST" action="/login">
-            <h2 class="h2-log">LOGIN</h2>
-            <div class="form-log">
-            <!-- Username -->
-                <input type="text" name="username_user" id="" placeholder="Username">
+            <div class="login-header">
+                <h2>MY LAUNDRY</h2>
+                <p>Silakan masuk ke akun administrator Anda</p>
             </div>
-            <!-- Password -->
+
+            <!-- USERNAME -->
             <div class="form-log">
-                <input type="password" name="password_user" id="" placeholder="Password">
+                <label for="username">Username</label>
+                <input type="text" name="username_user" id="username" placeholder="Masukkan username" required>
             </div>
-            <!-- SUBMIT -->
-            <div class="button-log">
+
+            <!-- PASSWORD -->
+            <div class="form-log">
+                <label for="password">Kata Sandi</label>
+                <input type="password" name="password_user" id="password" placeholder="••••••••" required>
+            </div>
+
+            <!-- SUBMIT BUTTON -->
+            <div class="button-log-container">
                 <button class="log-button" type="submit">Login</button>
             </div>
 
-            <!-- Link Regis-->
-            <a href="register.html" class="register-text">Belum Punya akun? Register</a>
-            
-            <hr>
+            <!-- LINK REGISTER & TESTING -->
+            <div class="login-footer">
+                <a href="register.html" class="register-text">Belum punya akun? <strong>Register</strong></a>
+                <a href="index.html" class="testing-link">← Lewati ke Testing Dashboard</a>
+            </div>
         </form>
     </div>
 </body>

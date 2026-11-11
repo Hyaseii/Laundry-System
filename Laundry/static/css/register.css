@@ -1,0 +1,179 @@
+/* =========================
+   RESET & DASAR
+========================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f7ff;
+    color: #1e293b;
+}
+
+/* =========================
+   HALAMAN LATAR BELAKANG
+========================= */
+.back-register {
+    width: 100vw;
+    height: 100vh;
+    /* Gradasi Biru Muda Segar */
+    background:  #7dd3fc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* =========================
+   KARTU FORM REGISTER
+========================= */
+.register {
+    width: 100%;
+    max-width: 440px;
+    background-color: #ffffff;
+    padding: 35px 30px;
+    border-radius: 20px;
+    /* Bayangan lembut dengan nuansa biru */
+    box-shadow: 0 15px 35px rgba(14, 165, 233, 0.15);
+    border: 1px solid #e0f2fe;
+    animation: fadeInModal 0.3s ease-out;
+}
+
+@keyframes fadeInModal {
+    from {
+        opacity: 0;
+        transform: translateY(15px) scale(0.97);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Header Form */
+.register-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.register-header h2 {
+    font-size: 22px;
+    font-weight: bold;
+    color: #0284c7; /* Biru Cerah */
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+}
+
+.register-header p {
+    font-size: 12px;
+    color: #64748b;
+}
+
+/* Form Group */
+.form-reg {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 14px;
+}
+
+.form-reg label {
+    font-size: 11px;
+    font-weight: bold;
+    color: #334155;
+}
+
+.form-reg input {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    outline: none;
+    background-color: #f8fafc;
+    font-size: 13px;
+    color: #334155;
+    transition: 0.2s;
+}
+
+.form-reg input:focus {
+    border-color: #38bdf8; /* Biru Muda Fokus */
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+}
+
+/* Tombol Submit */
+.button-reg-container {
+    margin-top: 22px;
+}
+
+.log-button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    /* Gradasi Tombol Biru Muda ke Biru Sedang */
+    background: #38bdf8;
+    color: white;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.log-button:hover {
+    color: #025886;
+}
+
+/* Footer Link */
+.register-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #f1f5f9;
+}
+
+.login-text {
+    font-size: 12px;
+    color: #64748b;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.login-text strong {
+    color: #0284c7;
+}
+
+.login-text:hover {
+    color: #025886;
+}
+
+.testing-link {
+    font-size: 11px;
+    color: #94a3b8;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.testing-link:hover {
+    color: #334155;
+    text-decoration: underline;
+}
+
+/* =========================
+   RESPONSIF HP
+========================= */
+@media (max-width: 480px) {
+    .back-register {
+        padding: 15px;
+    }
+
+    .register {
+        padding: 25px 20px;
+    }
+}

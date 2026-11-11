@@ -1,0 +1,177 @@
+/* =========================
+   RESET & DASAR
+========================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f7ff;
+    color: #1e293b;
+}
+
+/* =========================
+   HALAMAN LATAR BELAKANG
+========================= */
+.back-login {
+    width: 100vw;
+    height: 100vh;
+    background: #7dd3fc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* =========================
+   KARTU FORM LOGIN
+========================= */
+.login {
+    width: 100%;
+    max-width: 400px;
+    background-color: #ffffff;
+    padding: 35px 30px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(14, 165, 233, 0.15);
+    border: 1px solid #e0f2fe;
+    animation: fadeInModal 0.3s ease-out;
+}
+
+@keyframes fadeInModal {
+    from {
+        opacity: 0;
+        transform: translateY(15px) scale(0.97);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Header Form */
+.login-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.login-header h2 {
+    font-size: 22px;
+    font-weight: bold;
+    color: #0284c7; /* Biru Cerah */
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+}
+
+.login-header p {
+    font-size: 12px;
+    color: #64748b;
+}
+
+/* Form Group */
+.form-log {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+
+.form-log label {
+    font-size: 11px;
+    font-weight: bold;
+    color: #334155;
+}
+
+.form-log input {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    outline: none;
+    background-color: #f8fafc;
+    font-size: 13px;
+    color: #334155;
+    transition: 0.2s;
+}
+
+.form-log input:focus {
+    border-color: #38bdf8; /* Biru Muda Fokus */
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+}
+
+/* Tombol Submit */
+.button-log-container {
+    margin-top: 22px;
+}
+
+.log-button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: #38bdf8;
+    color: white;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.log-button:hover {
+    background: #0284c7;
+    color: #ffffff;
+}
+
+/* Footer Link */
+.login-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #f1f5f9;
+}
+
+.register-text {
+    font-size: 12px;
+    color: #64748b;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.register-text strong {
+    color: #0284c7;
+}
+
+.register-text:hover {
+    color: #025886;
+}
+
+.testing-link {
+    font-size: 11px;
+    color: #94a3b8;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.testing-link:hover {
+    color: #334155;
+    text-decoration: underline;
+}
+
+/* =========================
+   RESPONSIF HP
+========================= */
+@media (max-width: 480px) {
+    .back-login {
+        padding: 15px;
+    }
+
+    .login {
+        padding: 25px 20px;
+    }
+}

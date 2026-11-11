@@ -1,48 +1,60 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Register - My Laundry</title>
+    <link rel="stylesheet" href="../static/css/register.css">
 </head>
 <body>
     <div class="back-register">
         <form class="register" method="POST" action="/register">
-            <h2 class="h2-reg">REGISTER</h2>
+            <div class="register-header">
+                <h2>MY LAUNDRY</h2>
+                <p>Buat akun baru untuk mulai menggunakan layanan</p>
+            </div>
+
             <!-- USERNAME -->
             <div class="form-reg">
-                <input type="text" name="username_user" id="" placeholder="Username">
+                <label for="username">Username</label>
+                <input type="text" name="username_user" id="username" placeholder="Masukkan username" required>
             </div>
+
             <!-- PASSWORD -->
             <div class="form-reg">
-                <input type="password" name="password_user" id="" placeholder="Password">
-            <br>
+                <label for="password">Kata Sandi</label>
+                <input type="password" name="password_user" id="password" placeholder="••••••••" required>
             </div>
-            <!-- Email -->
+
+            <!-- EMAIL -->
             <div class="form-reg">
-                <input type="email" name="email_user" placeholder="Email">
-            <br>
+                <label for="email">Email</label>
+                <input type="email" name="email_user" id="email" placeholder="nama@email.com" required>
             </div>
-            <!-- No Telp -->
+
+            <!-- NO TELP -->
             <div class="form-reg">
-                <input type="text" name="no_telp" id="" placeholder="Phone">
-            <br>
+                <label for="phone">No. WhatsApp / Telepon</label>
+                <input type="text" name="no_telp" id="phone" placeholder="0856xxxxxxxx" required>
             </div>
-            <!-- Alamat -->
-            <div class="form-reg">
-                <input type="text" name="alamat_user" placeholder="Address">
-            <br>
-            </div>
+
+            <!-- ALAMAT -->
+            <!-- <div class="form-reg">
+                <label for="address">Alamat Lengkap</label>
+                <input type="text" name="alamat_user" id="address" placeholder="Contoh: Jl. Kenanga No. 149" required>
+            </div> -->
+
             <!-- SUBMIT BUTTON -->
-            <button type="submit" class="log-button">Register</button>
-            <a href="login.html" class="login-text">Sudah Punya Akun?Login</a>
-            <br>
-            <a href="index.html ">Testing</a>
-            <hr>
+            <div class="button-reg-container">
+                <button type="submit" class="log-button">Daftar Sekarang</button>
+            </div>
+
+            <!-- LINK LOGIN & TESTING -->
+            <div class="register-footer">
+                <a href="login.html" class="login-text">Sudah punya akun? <strong>Login di sini</strong></a>
+                <a href="index.html" class="testing-link">← Lewati ke Testing Dashboard</a>
+            </div>
         </form>
     </div>
-    <br>
-    
 </body>
 </html>
