@@ -28,7 +28,7 @@
             <button class="profile-button" onclick="bukatutupprofile()">⌄</button>
             <div class="profile-page" id="profiledropdown">
                 <a href="javascript:void(0)" onclick="bukaModalPengaturan()">Pengaturan</a>
-                <a href="register.html">Log Out</a>
+                <a href="/register">Log Out</a>
             </div>
         </div>
     </header>
@@ -39,9 +39,9 @@
         <!-- SIDEBAR -->
         <div class="dashboard">
             <h2>MENU</h2>
-            <a href="#" class="active">Dashboard</a>
-            <a href="pesanan.html" >Pesanan</a>
-            <a href="pembayaran.html">Pembayaran</a>
+            <a href="/dashboardpage" class="active">Dashboard</a>
+            <a href="/orderdashboard" >Pesanan</a>
+            <a href="/paymentdashboard">Pembayaran</a>
         </div>
     </aside>
     <main class="content-dashboard" id="Konten">
@@ -127,7 +127,7 @@
                         <h4>Edit Profil Administrator</h4>
                         <form onsubmit="simpanPengaturan(event)">
                             <div class="avatar-section">
-                                <img src="Rin Shima (志摩 リン).jpe" alt="Profile" class="avatar-preview">
+                                <img src="../static/image/Rin Shima (志摩 リン).jpe" alt="Profile" class="avatar-preview">
                                 <div>
                                     <button type="button" class="btn-secondary">Ganti Foto</button>
                                     <p class="help-text">Format JPG atau PNG, Maks 2MB</p>

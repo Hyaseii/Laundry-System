@@ -1,0 +1,1 @@
+pas di buka setting bagian dashboard itu tidak semua page fotoprofile ke load, ada yang tidak keload
