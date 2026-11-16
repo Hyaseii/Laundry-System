@@ -169,12 +169,14 @@
 
             <form action="{{ url_for('create_order') }}" method="POST">
                 <div class="layanan-order">
-                    <label for="">Pilih Layanan</label>
-                    <select name="layanan" id="modalServiceSelect">
-                        <option value="laundry">Laundry</option>
-                        <option value="setrika">Setrika</option>
-                        <option value="laundry-setrika">Laundry + Setrika</option>
-                        <option value="express">Laundry + Setrika Express</option>
+                    <label for="modalServiceSelect">Pilih Layanan</label>
+                    <select name="layanan" id="modalServiceSelect" required>
+                        <option value="laundry" disabled selected>--Pilih Layanan--</option>
+                        {% for service in services %}
+                            <option value="{{service[0]}}">
+                                {{service[1]}}
+                            </option>
+                        {%endfor%}
                     </select>
                 </div>
 
@@ -232,16 +234,10 @@
                 <!-- NAVIGATION TAB KIRI -->
                 <nav class="settings-sidebar">
                     <button class="tab-link active" onclick="switchTab(event, 'tab-profil')">
-                        <span> Profil Admin</span>
+                        <span> Profil </span>
                     </button>
                     <button class="tab-link" onclick="switchTab(event, 'tab-keamanan')">
                         <span> Keamanan & Sandi</span>
-                    </button>
-                    <button class="tab-link" onclick="switchTab(event, 'tab-tarif')">
-                        <span> Tarif & Layanan</span>
-                    </button>
-                    <button class="tab-link" onclick="switchTab(event, 'tab-notifikasi')">
-                        <span> Notifikasi</span>
                     </button>
                 </nav>
 
@@ -250,7 +246,7 @@
                     
                     <!-- TAB 1: PROFIL -->
                     <div id="tab-profil" class="tab-content active">
-                        <h4>Edit Profil Administrator</h4>
+                        <h4>Edit Profil</h4>
                         <form onsubmit="simpanPengaturan(event)">
                             <div class="avatar-section">
                                 <img src="Rin Shima (志摩 リン).jpe" alt="Profile" class="avatar-preview">
@@ -339,23 +335,7 @@
 
                     <!-- TAB 4: NOTIFIKASI -->
                     <div id="tab-notifikasi" class="tab-content">
-                        <h4>Preferensi Notifikasi Sistem</h4>
-                        <div class="toggle-group">
-                            <div>
-                                <strong>Notifikasi Pesanan Baru (WhatsApp)</strong>
-                                <p class="help-text">Kirim notifikasi otomatis saat pesanan baru dibuat</p>
-                            </div>
-                            <input type="checkbox" checked>
-                        </div>
-                        <hr class="divider">
-                        <div class="toggle-group">
-                            <div>
-                                <strong>Laporan Harian via Email</strong>
-                                <p class="help-text">Terima ringkasan transaksi setiap pukul 21:00 WIB</p>
-                            </div>
-                            <input type="checkbox">
-                        </div>
-
+                        
                         <div class="form-footer">
                             <button type="button" onclick="simpanPengaturan(event)" class="btn-primary">Simpan Preferensi</button>
                         </div>

@@ -3,6 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from database import get_connection
 import os
 from dotenv import load_dotenv
+from decimal import Decimal, InvalidOperation
 
 load_dotenv()
 app = Flask(__name__)
@@ -100,50 +101,133 @@ def login():
 # ORDER
 @app.route('/orderpage', methods = ['GET'])
 def orderpage():
-    return render_template ('order.html')
+
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    try:
+        cursor.execute("""
+        SELECT id_service, nama_layanan, harga_per_kg 
+        FROM laundry.services
+        WHERE is_active = TRUE
+        """)
+
+        services = cursor.fetchall()
+
+        return render_template('order.html', services = services)
+
+    finally :
+        connection.close()
+        cursor.close()
+
 
 # CREATE ORDER
 @app.route('/create_order', methods =['POST'])
 def create_order():
+
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
 
     layanan = request.form['layanan']
     qty = request.form['qty']
     metode = request.form['metode_bayar']
     alamat = request.form['alamat']
 
+    user_id = session['user_id']
+
+    if not layanan or not qty or not metode or not alamat:
+        return 'Semua data harus di isi'
+
+    try : 
+
+        berat = Decimal(qty)
+
+        if berat <= 0 :
+            return 'berat harus lebih dari 0'
+    except (ValueError, InvalidOperation) :
+        return 'data tidak valid'
+
+    if metode not in ('cash', 'debit'):
+        return 'Metode pembayaran tidak valid'
+
     connection = get_connection()
     cursor = connection.cursor()
 
-    try : 
+    try:
         cursor.execute("""
-        INSERT INTO laundry.orders (user_id, alamat_penjemputan, id_customer)
-            VALUES (%s, %s, %s)
-            RETURNING id_order
-        """,(user_id, alamat, id_customer))
+        SELECT id_customer FROM laundry.customers
+        WHERE user_id = %s
+        """,(user_id,))
 
-        id_customer = cursor.fetchone()
-        user_id = cursor.fetchone()
+        customer = cursor.fetchone()
+
+        if customer is None :
+            return 'Data pelanggan tidak ditemukan'
+
+        id_customer = customer[0]
+
+        id_service = int(layanan)
+
+        cursor.execute("""
+            SELECT id_service, harga_per_kg, estimasi_hari
+            FROM laundry.services
+            WHERE id_service = %s
+            AND is_active = TRUE
+        """, (id_service,))
+
+        service = cursor.fetchone()
+        print("DATA SERVICE:", service)
+        print("JUMLAH KOLOM:", len(service) if service else 0)
+
+
+        if service is None:
+            return 'Layanan tidak sedang tersedia'
+
+        harga = service[1]
+        estimasi = service[2]
+
+        subtotal = berat * harga
+
+        cursor.execute("""
+        INSERT INTO laundry.orders (id_customer, user_id ,tanggal_pesanan, target_selesai, status_pengerjaan,
+            total_harga, alamat_penjemputan)
+            VALUES (%s, %s,CURRENT_TIMESTAMP,CURRENT_DATE + %s, %s, %s, %s)  
+            RETURNING id_order
+        """,(id_customer, user_id,estimasi, 'Menunggu', subtotal, alamat))
+# CURRENT DATE error column "current_date" does not exist
         id_order = cursor.fetchone()[0]
 
         cursor.execute("""
-        INSERT INTO laundry.payments (metode_pembayaran)
-            VALUES (%s)
-            RETURNING id_payment
-        """,(id_order, metode))
+        INSERT INTO laundry.orders_detail
+            (id_order, id_service, berat_kg ,harga_per_kg, subtotal)
+            VALUES (%s,%s,%s,%s,%s)
+        """,(id_order, id_service, berat, harga, subtotal))
 
-        id_payment = cursor.fetchone()[0]
+        cursor.execute("""
+        INSERT INTO laundry.payments
+            (id_order, jumlah_bayar, metode_pembayaran, status_pembayaran)
+            VALUES(%s,%s,%s,%s)
+        """,(id_order, subtotal, metode, 'Belum Bayar'))
 
-        session['layanan'] = user_id[6]
+        connection.commit()
 
-    except :
-        return 'GAGAL'
+        print('ID USER:', user_id)
+        print('ID CUSTOMER:', id_customer)
+        print('ID ORDER:', id_order)
+        print('ID SERVICE:', id_service)
+        print('BERAT:', berat)
+        print('SUBTOTAL:', subtotal)
+        return "Pesanan berhasil dibuat"
+        
 
-    print('Layanan : ',layanan)
-    print('Berat : ',qty)
-    print('Metode : ',metode)
-    print('Alamat : ',alamat)
+    except Exception as e:
+        connection.rollback()
+        print('Pemesanan gagatl',e)
+        return f'GAGAL : {e}'
 
-    return 'DATA BERHASIL DI CATAT'
+    finally:
+        connection.close()
+        cursor.close()
 
 # DASHBOARD
 @app.route('/dashboardpage')
