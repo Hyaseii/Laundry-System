@@ -15,11 +15,12 @@ def home():
     return(render_template('register.html'))
 
 # REGISTER
-@app.route('/register',methods =['POST','GET'])
+@app.route('/register', methods=['POST', 'GET'])
 def register():
     if request.method == 'GET':
         return render_template('register.html')
 
+    nama_lengkap = request.form['nama_lengkap']
     name = request.form['username_user']
     password = request.form['password_user']
     email = request.form['email_user']
@@ -30,32 +31,33 @@ def register():
     connection = get_connection()
     cursor = connection.cursor()
 
-    try :
+    try:
         cursor.execute("""
-            INSERT INTO auth.users ( username, password_hash, email)
-                VALUES (%s,%s,%s)
-                RETURNING user_id
-        """,(name, password_hash, email))
+            INSERT INTO auth.users (username, password_hash, email)
+            VALUES (%s, %s, %s)
+            RETURNING user_id
+        """, (name, password_hash, email))
 
         user_id = cursor.fetchone()[0]
 
         cursor.execute("""
-            INSERT INTO laundry.customers(user_id,no_telp)
-                VALUES (%s, %s)
-        """,(user_id,no_telp))
+            INSERT INTO laundry.customers
+                (user_id, nama_lengkap, no_telp)
+            VALUES (%s, %s, %s)
+        """, (user_id, nama_lengkap, no_telp))
 
         connection.commit()
 
     except Exception as e:
         connection.rollback()
-        print('Registrasi Gagal: ',e)
+        print('Registrasi Gagal:', e)
         return "Registrasi Gagal"
 
     finally:
         cursor.close()
         connection.close()
 
-    return redirect (url_for('login'))
+    return redirect(url_for('login'))   
 
 
 # LOGIN
@@ -100,7 +102,7 @@ def login():
     return redirect(url_for('login'))
 
 
-# ORDER
+
 @app.route('/orderpage', methods=['GET'])
 def orderpage():
 
@@ -113,32 +115,26 @@ def orderpage():
     cursor = connection.cursor()
 
     try:
-        # Mengambil ID pelanggan
+        # Mengambil data layanan
         cursor.execute("""
-            SELECT id_customer
-            FROM laundry.customers
-            WHERE user_id = %s
-        """, (user_id,))
-
-        customer = cursor.fetchone()
-
-        if customer is None:
-            return "Data pelanggan tidak ditemukan"
-
-        id_customer = customer[0]
-
-        # Mengambil layanan yang aktif
-        cursor.execute("""
-            SELECT id_service, nama_layanan,
-                   harga_per_kg, estimasi_hari
+            SELECT id_service, nama_layanan, harga_per_kg
             FROM laundry.services
             WHERE is_active = TRUE
-            ORDER BY id_service
         """)
-
         services = cursor.fetchall()
 
-        # Mengambil seluruh riwayat pesanan pelanggan
+        # Mengambil riwayat pesanan & status pembayaran pelanggan
+        # Urutan kolom:
+        # 0: id_order
+        # 1: tanggal_pesanan
+        # 2: target_selesai
+        # 3: status_pengerjaan
+        # 4: total_harga
+        # 5: alamat_penjemputan
+        # 6: berat_kg
+        # 7: nama_layanan
+        # 8: status_pembayaran
+        # 9: metode_pembayaran
         cursor.execute("""
             SELECT
                 o.id_order,
@@ -150,41 +146,58 @@ def orderpage():
                 od.berat_kg,
                 s.nama_layanan,
                 p.status_pembayaran,
-                p.metode_pembayaran
+                p.metode_pembayaran,
+                c.id_customer
             FROM laundry.orders o
-
+            JOIN laundry.customers c
+                ON o.id_customer = c.id_customer
             LEFT JOIN laundry.orders_detail od
                 ON o.id_order = od.id_order
-
             LEFT JOIN laundry.services s
                 ON od.id_service = s.id_service
-
             LEFT JOIN laundry.payments p
                 ON o.id_order = p.id_order
-
-            WHERE o.id_customer = %s
-
+            WHERE c.user_id = %s
             ORDER BY o.tanggal_pesanan DESC
-        """, (id_customer,))
+        """, (user_id,))
 
-        orders = cursor.fetchall()
+        rows = cursor.fetchall()
+        riwayat_pesanan = rows
+        active_order = rows[0] if rows else None
+        id_customer = rows[0][10] if rows else None
 
-        # Pesanan terbaru untuk kartu utama
-        active_order = orders[0] if orders else None
+        # Mengambil data profil pengguna (termasuk nama_lengkap)
+        cursor.execute("""
+            SELECT
+                u.username,
+                u.email,
+                c.no_telp,
+                c.nama_lengkap
+            FROM auth.users u
+            JOIN laundry.customers c
+                ON u.user_id = c.user_id
+            WHERE u.user_id = %s
+        """, (user_id,))
+
+        profile = cursor.fetchone()
+
+        if profile is None:
+            return 'Data profil tidak ditemukan'
 
         return render_template(
             'order.html',
             services=services,
-            id_customer=id_customer,
-            orders=orders,
+            profile=profile,
+            username=profile[0],
+            orders=riwayat_pesanan,
+            riwayat_pesanan=riwayat_pesanan,
             active_order=active_order,
-            username=session.get('username')
+            id_customer=id_customer
         )
 
     finally:
         cursor.close()
         connection.close()
-
 
 
 # CREATE ORDER
@@ -324,6 +337,59 @@ def paymentdashboardpage():
 def orderdashboardpage():
     return render_template ('pesanan.html')
 
+
+@app.route('/update_profile', methods=['POST'])
+def update_profile():
+
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    user_id = session['user_id']
+
+    nama_lengkap = request.form.get('nama_lengkap', '').strip()
+    username = request.form.get('username', '').strip()
+    email = request.form.get('email', '').strip()
+    no_telp = request.form.get('no_telp', '').strip()
+
+    if not nama_lengkap or not username or not email or not no_telp:
+        flash('Semua data profil harus diisi.', 'error')
+        return redirect(url_for('orderpage'))
+
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    try:
+        cursor.execute("""
+            UPDATE auth.users
+            SET username = %s,
+                email = %s
+            WHERE user_id = %s
+        """, (username, email, user_id))
+
+        cursor.execute("""
+            UPDATE laundry.customers
+            SET nama_lengkap = %s,
+                no_telp = %s
+            WHERE user_id = %s
+        """, (nama_lengkap, no_telp, user_id))
+
+        connection.commit()
+
+        session['username'] = username
+
+        flash('Pengaturan profil berhasil diperbarui.', 'success')
+
+    except Exception as e:
+        connection.rollback()
+        print('Update profil gagal:', e)
+
+        flash('Gagal memperbarui pengaturan profil.', 'error')
+
+    finally:
+        cursor.close()
+        connection.close()
+
+    return redirect(url_for('orderpage'))
 
 if __name__ == "__main__":  #harus di taro paling bawah
     app.run(debug=True)

@@ -29,7 +29,7 @@
             <button class="profile-button" onclick="bukatutupprofile()">⌄</button>
             <div class="profile-page" id="profiledropdown">
                 <a href="javascript:void(0)" onclick="bukaModalPengaturan()">Pengaturan</a>
-                <a href="register.html">Log Out</a>
+                <a href="/register">Log Out</a>
             </div>
         </div>
     </header>
@@ -123,24 +123,17 @@
 
                     </button>
                 </div>
-
                 {% endfor %}
-
             </div>
-
-
-            </div>
-            
         </section>
 
         <section>
             <div class="history-header">
                 <h3>Riwayat Pesanan</h3>
-                <button>Lihat Semua</button>
+                <button type="button" id="toggleShowAllBtn" onclick="toggleShowAll()">Lihat Semua</button>
             </div>
 
-            
-            <div class="box-histori">
+            <div class="box-histori" id="historyList">
 
                 {% for order in orders %}
 
@@ -183,7 +176,7 @@
                 {% endfor %}
 
             </div>
-
+            <div class= "history-pagination" id="historyPagination"></div>
             
         </section>
     </main>
@@ -215,7 +208,7 @@
                         <input type="number" name="qty" min="0.1" step="0.1" required>
                     </div>
 
-                    <div class="method-pay" id="metodeBayar">
+                    <div class="method-pay" id="">
                         <label for="">Metode Bayar</label>
                         <select name="metode_bayar" id="metodeBayar" required>
                             <option value="cash">Tunai/COD</option>
@@ -275,40 +268,61 @@
                     
                     <!-- TAB 1: PROFIL -->
                     <div id="tab-profil" class="tab-content active">
+
                         <h4>Edit Profil</h4>
-                        <form onsubmit="simpanPengaturan(event)">
-                            <div class="avatar-section">
-                                <img src="Rin Shima (志摩 リン).jpe" alt="Profile" class="avatar-preview">
-                                <div>
-                                    <button type="button" class="btn-secondary">Ganti Foto</button>
-                                    <p class="help-text">Format JPG atau PNG, Maks 2MB</p>
-                                </div>
-                            </div>
+
+                        <form action="{{ url_for('update_profile') }}" method="POST">
 
                             <div class="form-grid">
+                                
                                 <div class="form-group">
                                     <label>Nama Lengkap</label>
-                                    <input type="text" value="Admin Laundry" required>
+                                    <input
+                                        type="text"
+                                        name="nama_lengkap"
+                                        value="{{ profile[3] or '' }}"
+                                        required>
                                 </div>
+
                                 <div class="form-group">
                                     <label>Username</label>
-                                    <input type="text" value="admin_laundry" required>
+                                    <input
+                                        type="text"
+                                        name="username"
+                                        value="{{ profile[0] }}"
+                                        required>
                                 </div>
+
                                 <div class="form-group">
                                     <label>Email</label>
-                                    <input type="email" value="admin@mylaundry.com" required>
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        value="{{ profile[1] }}"
+                                        required>
                                 </div>
+
                                 <div class="form-group">
                                     <label>No. WhatsApp / Telepon</label>
-                                    <input type="text" value="085692991035" required>
+                                    <input
+                                        type="text"
+                                        name="no_telp"
+                                        value="{{ profile[2] }}"
+                                        required>
                                 </div>
+
                             </div>
-                            
+
                             <div class="form-footer">
-                                <button type="submit" class="btn-primary">Simpan Perubahan</button>
+                                <button type="submit" class="btn-primary">
+                                    Simpan Perubahan
+                                </button>
                             </div>
+
                         </form>
+
                     </div>
+
 
                     <!-- TAB 2: KEAMANAN -->
                     <div id="tab-keamanan" class="tab-content">
@@ -737,5 +751,86 @@ document.getElementById("modalServiceSelect")
                 popup.remove();
             }
         }
+
+        /* =========================
+        PAGINATION RIWAYAT (5 PER PAGE)
+        ========================= */
+        const ITEMS_PER_PAGE = 5;
+        let currentPage = 1;
+        let showAllMode = false;
+
+        function renderHistoryPagination() {
+            const rows = Array.from(document.querySelectorAll("#historyList .order-row"));
+            const paginationContainer = document.getElementById("historyPagination");
+            const toggleBtn = document.getElementById("toggleShowAllBtn");
+
+            if (!paginationContainer || rows.length === 0) {
+                if (paginationContainer) paginationContainer.innerHTML = "";
+                return;
+            }
+
+            // Jika mode "Lihat Semua" aktif
+            if (showAllMode) {
+                rows.forEach(row => row.style.display = "");
+                paginationContainer.innerHTML = "";
+                if (toggleBtn) toggleBtn.textContent = "Tampilkan Per 5";
+                return;
+            }
+
+            if (toggleBtn) toggleBtn.textContent = "Lihat Semua";
+
+            const totalPages = Math.ceil(rows.length / ITEMS_PER_PAGE);
+            if (currentPage > totalPages) currentPage = totalPages;
+
+            const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+            const endIndex = startIndex + ITEMS_PER_PAGE;
+
+            // Tampilkan hanya 5 item sesuai halaman aktif
+            rows.forEach((row, index) => {
+                row.style.display = (index >= startIndex && index < endIndex) ? "" : "none";
+            });
+
+            // Kalau total data <= 5, tombol halaman tidak perlu muncul
+            if (totalPages <= 1) {
+                paginationContainer.innerHTML = "";
+                return;
+            }
+
+            // Buat tombol Prev, nomor halaman, dan Next
+            let html = `
+                <button type="button" class="page-btn" ${currentPage === 1 ? "disabled" : ""} onclick="changeHistoryPage(${currentPage - 1})">
+                    &laquo; Prev
+                </button>
+            `;
+
+            for (let i = 1; i <= totalPages; i++) {
+                html += `
+                    <button type="button" class="page-btn ${i === currentPage ? "active" : ""}" onclick="changeHistoryPage(${i})">
+                        ${i}
+                    </button>
+                `;
+            }
+
+            html += `
+                <button type="button" class="page-btn" ${currentPage === totalPages ? "disabled" : ""} onclick="changeHistoryPage(${currentPage + 1})">
+                    Next &raquo;
+                </button>
+            `;
+
+            paginationContainer.innerHTML = html;
+        }
+
+        function changeHistoryPage(page) {
+            currentPage = page;
+            renderHistoryPagination();
+        }
+
+        function toggleShowAll() {
+            showAllMode = !showAllMode;
+            renderHistoryPagination();
+        }
+
+        // Jalankan saat halaman selesai dimuat
+        renderHistoryPagination();
 </script>
 </html>
