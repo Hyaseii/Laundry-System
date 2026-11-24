@@ -764,3 +764,225 @@ footer {
         grid-column: span 1;
     }
 }
+
+
+/* =========================
+   POPUP NOTIFIKASI
+========================= */
+
+.notification-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.45);
+    backdrop-filter: blur(5px);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+    z-index: 2000;
+
+    animation: notificationFade 0.25s ease;
+}
+
+.notification-box {
+    position: relative;
+    width: 100%;
+    max-width: 360px;
+
+    background: white;
+    border-radius: 18px;
+    padding: 35px 25px 25px;
+
+    text-align: center;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+
+    animation: notificationScale 0.25s ease;
+}
+
+.notification-close {
+    position: absolute;
+    top: 12px;
+    right: 15px;
+
+    border: none;
+    background: transparent;
+    font-size: 25px;
+    color: #94a3b8;
+    cursor: pointer;
+}
+
+.notification-icon {
+    width: 65px;
+    height: 65px;
+
+    margin: 0 auto 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+    font-size: 35px;
+    font-weight: bold;
+}
+
+.notification-box.success .notification-icon {
+    background: #dcfce7;
+    color: #16a34a;
+}
+
+.notification-box.error .notification-icon {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.notification-box h3 {
+    font-size: 19px;
+    color: #1e293b;
+    margin-bottom: 10px;
+}
+
+.notification-box p {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #64748b;
+    margin-bottom: 22px;
+}
+
+.notification-button {
+    width: 100%;
+    padding: 12px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: linear-gradient(120deg, #5145ed, #6335d5);
+    color: white;
+
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.notification-button:hover {
+    opacity: 0.9;
+}
+
+@keyframes notificationFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes notificationScale {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+
+/* =========================
+   MODAL DETAIL PESANAN
+========================= */
+
+.detail-order-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1500;
+    background: rgba(15, 23, 42, 0.5);
+    backdrop-filter: blur(5px);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.detail-order-overlay.show {
+    display: flex;
+}
+
+.detail-order-box {
+    width: 100%;
+    max-width: 480px;
+    background: white;
+    border-radius: 18px;
+    padding: 24px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    animation: modalMuncul 0.25s ease;
+}
+
+.detail-order-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 17px;
+    border-bottom: 1px solid #e5eaf2;
+}
+
+.detail-order-header h3 {
+    font-size: 18px;
+    color: #1e293b;
+}
+
+.detail-order-header p {
+    margin-top: 5px;
+    color: #5145ed;
+    font-size: 12px;
+}
+
+.detail-order-header button {
+    border: none;
+    background: transparent;
+    color: #64748b;
+    font-size: 27px;
+    cursor: pointer;
+}
+
+.detail-order-body {
+    padding: 18px 0;
+}
+
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 11px 0;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 13px;
+}
+
+.detail-item span {
+    color: #8492a6;
+}
+
+.detail-item strong {
+    color: #334155;
+    text-align: right;
+}
+
+.detail-total {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding-top: 18px;
+    color: #5145ed;
+    font-size: 15px;
+}
+
+.detail-close-button {
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
+    background: linear-gradient(120deg, #5145ed, #6335d5);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
