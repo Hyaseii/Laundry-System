@@ -1,4 +1,4 @@
-from flask import Flask,redirect, url_for,render_template,request, jsonify,session
+from flask import Flask,redirect, url_for,render_template,request, jsonify,session, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 from database import get_connection
 import os
@@ -96,138 +96,218 @@ def login():
 
         else:
             return redirect(url_for('orderpage'))
-    return 'Username atau password salah'
+    flash('Username atau password salah. Silakan periksa kembali!', 'error')
+    return redirect(url_for('login'))
+
 
 # ORDER
-@app.route('/orderpage', methods = ['GET'])
+@app.route('/orderpage', methods=['GET'])
 def orderpage():
+
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    user_id = session['user_id']
 
     connection = get_connection()
     cursor = connection.cursor()
 
     try:
+        # Mengambil ID pelanggan
         cursor.execute("""
-        SELECT id_service, nama_layanan, harga_per_kg 
-        FROM laundry.services
-        WHERE is_active = TRUE
+            SELECT id_customer
+            FROM laundry.customers
+            WHERE user_id = %s
+        """, (user_id,))
+
+        customer = cursor.fetchone()
+
+        if customer is None:
+            return "Data pelanggan tidak ditemukan"
+
+        id_customer = customer[0]
+
+        # Mengambil layanan yang aktif
+        cursor.execute("""
+            SELECT id_service, nama_layanan,
+                   harga_per_kg, estimasi_hari
+            FROM laundry.services
+            WHERE is_active = TRUE
+            ORDER BY id_service
         """)
 
         services = cursor.fetchall()
 
-        return render_template('order.html', services = services)
+        # Mengambil seluruh riwayat pesanan pelanggan
+        cursor.execute("""
+            SELECT
+                o.id_order,
+                o.tanggal_pesanan,
+                o.target_selesai,
+                o.status_pengerjaan,
+                o.total_harga,
+                o.alamat_penjemputan,
+                od.berat_kg,
+                s.nama_layanan,
+                p.status_pembayaran,
+                p.metode_pembayaran
+            FROM laundry.orders o
 
-    finally :
-        connection.close()
+            LEFT JOIN laundry.orders_detail od
+                ON o.id_order = od.id_order
+
+            LEFT JOIN laundry.services s
+                ON od.id_service = s.id_service
+
+            LEFT JOIN laundry.payments p
+                ON o.id_order = p.id_order
+
+            WHERE o.id_customer = %s
+
+            ORDER BY o.tanggal_pesanan DESC
+        """, (id_customer,))
+
+        orders = cursor.fetchall()
+
+        # Pesanan terbaru untuk kartu utama
+        active_order = orders[0] if orders else None
+
+        return render_template(
+            'order.html',
+            services=services,
+            id_customer=id_customer,
+            orders=orders,
+            active_order=active_order,
+            username=session.get('username')
+        )
+
+    finally:
         cursor.close()
+        connection.close()
+
 
 
 # CREATE ORDER
-@app.route('/create_order', methods =['POST'])
+@app.route('/create_order', methods=['POST'])
 def create_order():
 
     if 'user_id' not in session:
         return redirect(url_for('login'))
 
-    layanan = request.form['layanan']
-    qty = request.form['qty']
-    metode = request.form['metode_bayar']
-    alamat = request.form['alamat']
+    layanan = request.form.get('layanan')
+    qty = request.form.get('qty')
+    metode = request.form.get('metode_bayar')
+    alamat = request.form.get('alamat', '').strip()
 
     user_id = session['user_id']
 
     if not layanan or not qty or not metode or not alamat:
-        return 'Semua data harus di isi'
+        flash('Semua data pesanan harus diisi!', 'error')
+        return redirect(url_for('orderpage'))
 
-    try : 
-
+    try:
         berat = Decimal(qty)
+        id_service = int(layanan)
 
-        if berat <= 0 :
-            return 'berat harus lebih dari 0'
-    except (ValueError, InvalidOperation) :
-        return 'data tidak valid'
+        if berat <= 0:
+            raise ValueError
+
+    except (ValueError, InvalidOperation):
+        flash('Jumlah berat atau layanan tidak valid!', 'error')
+        return redirect(url_for('orderpage'))
 
     if metode not in ('cash', 'debit'):
-        return 'Metode pembayaran tidak valid'
+        flash('Metode pembayaran tidak valid!', 'error')
+        return redirect(url_for('orderpage'))
 
     connection = get_connection()
     cursor = connection.cursor()
 
     try:
         cursor.execute("""
-        SELECT id_customer FROM laundry.customers
-        WHERE user_id = %s
-        """,(user_id,))
+            SELECT id_customer
+            FROM laundry.customers
+            WHERE user_id = %s
+        """, (user_id,))
 
         customer = cursor.fetchone()
 
-        if customer is None :
-            return 'Data pelanggan tidak ditemukan'
+        if customer is None:
+            flash('Data pelanggan tidak ditemukan!', 'error')
+            return redirect(url_for('orderpage'))
 
         id_customer = customer[0]
 
-        id_service = int(layanan)
-
         cursor.execute("""
-            SELECT id_service, harga_per_kg, estimasi_hari
+            SELECT harga_per_kg, estimasi_hari
             FROM laundry.services
             WHERE id_service = %s
             AND is_active = TRUE
         """, (id_service,))
 
         service = cursor.fetchone()
-        print("DATA SERVICE:", service)
-        print("JUMLAH KOLOM:", len(service) if service else 0)
-
 
         if service is None:
-            return 'Layanan tidak sedang tersedia'
+            flash('Layanan tidak tersedia!', 'error')
+            return redirect(url_for('orderpage'))
 
-        harga = service[1]
-        estimasi = service[2]
-
+        harga = service[0]
+        estimasi = service[1]
         subtotal = berat * harga
 
         cursor.execute("""
-        INSERT INTO laundry.orders (id_customer, user_id ,tanggal_pesanan, target_selesai, status_pengerjaan,
-            total_harga, alamat_penjemputan)
-            VALUES (%s, %s,CURRENT_TIMESTAMP,CURRENT_DATE + %s, %s, %s, %s)  
+            INSERT INTO laundry.orders
+                (id_customer, user_id, tanggal_pesanan,
+                 target_selesai, status_pengerjaan,
+                 total_harga, alamat_penjemputan)
+            VALUES (
+                %s, %s, CURRENT_TIMESTAMP,
+                CURRENT_DATE + %s, %s, %s, %s
+            )
             RETURNING id_order
-        """,(id_customer, user_id,estimasi, 'Menunggu', subtotal, alamat))
-# CURRENT DATE error column "current_date" does not exist
+        """, (
+            id_customer, user_id, estimasi,
+            'Menunggu', subtotal, alamat
+        ))
+
         id_order = cursor.fetchone()[0]
 
         cursor.execute("""
-        INSERT INTO laundry.orders_detail
-            (id_order, id_service, berat_kg ,harga_per_kg, subtotal)
-            VALUES (%s,%s,%s,%s,%s)
-        """,(id_order, id_service, berat, harga, subtotal))
+            INSERT INTO laundry.orders_detail
+                (id_order, id_service, berat_kg,
+                 harga_per_kg, subtotal)
+            VALUES (%s, %s, %s, %s, %s)
+        """, (
+            id_order, id_service, berat, harga, subtotal
+        ))
 
         cursor.execute("""
-        INSERT INTO laundry.payments
-            (id_order, jumlah_bayar, metode_pembayaran, status_pembayaran)
-            VALUES(%s,%s,%s,%s)
-        """,(id_order, subtotal, metode, 'Belum Bayar'))
+            INSERT INTO laundry.payments
+                (id_order, jumlah_bayar,
+                 metode_pembayaran, status_pembayaran)
+            VALUES (%s, %s, %s, %s)
+        """, (
+            id_order, subtotal, metode, 'Belum Bayar'
+        ))
 
         connection.commit()
 
-        print('ID USER:', user_id)
-        print('ID CUSTOMER:', id_customer)
-        print('ID ORDER:', id_order)
-        print('ID SERVICE:', id_service)
-        print('BERAT:', berat)
-        print('SUBTOTAL:', subtotal)
-        return "Pesanan berhasil dibuat"
-        
+        flash(
+            f'Pesanan berhasil dibuat! Nomor pesanan: {id_order}',
+            'success'
+        )
 
     except Exception as e:
         connection.rollback()
-        print('Pemesanan gagatl',e)
-        return f'GAGAL : {e}'
+        print('Pemesanan gagal:', e)
+        flash('Pesanan gagal dibuat. Silakan coba kembali!', 'error')
 
     finally:
-        connection.close()
         cursor.close()
+        connection.close()
+
+    return redirect(url_for('orderpage'))
+
 
 # DASHBOARD
 @app.route('/dashboardpage')
