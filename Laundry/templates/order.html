@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="../static/css/order.css">
     <link rel="stylesheet" href="../static/css/pengaturan-modal.css">
 </head>
+
 <body>
     <!-- PROFILE -->
     <header>
@@ -36,7 +38,7 @@
 
     <main class="order-content">
         <section>
-            
+
             {% if active_order %}
             <div class="id-order-page">
 
@@ -104,15 +106,13 @@
         <section>
             <span>Pilih Layanan Cepat</span>
             <span>Klik Paket Untuk Langsung Membuat Pesanan Baru</span>
-                
+
             <div class="layanan-grid">
 
                 {% for service in services %}
 
                 <div class="order-page">
-                    <button
-                        type="button"
-                        data-service-id="{{ service[0] }}"
+                    <button type="button" data-service-id="{{ service[0] }}"
                         onclick="selectCategory(this.dataset.serviceId)">
 
                         <span>{{ service[1] }}</span>
@@ -176,8 +176,8 @@
                 {% endfor %}
 
             </div>
-            <div class= "history-pagination" id="historyPagination"></div>
-            
+            <div class="history-pagination" id="historyPagination"></div>
+
         </section>
     </main>
 
@@ -195,15 +195,15 @@
                     <select name="layanan" id="modalServiceSelect" required>
                         <option value="" disabled selected>--Pilih Layanan--</option>
                         {% for service in services %}
-                            <option value="{{service[0]}}">
-                                {{service[1]}}
-                            </option>
+                        <option value="{{service[0]}}">
+                            {{service[1]}}
+                        </option>
                         {%endfor%}
                     </select>
                 </div>
 
                 <div class="qty-payment-method">
-                    <div class="qty">   
+                    <div class="qty">
                         <label for="">Estimasi Qty/Kg</label>
                         <input type="number" name="qty" min="0.1" step="0.1" required>
                     </div>
@@ -218,7 +218,9 @@
 
                     <div class="adress">
                         <label for="">Alamat Penjemputan</label>
-                        <textarea name="alamat" id="" placeholder="Tuliskan Alamat Penjemputan Dengan Benar Dan Lengkap.." required>Jl.Kenanga 1 No.149 01/05 Kec.Pancoran Mas Kel.Depok Jaya</textarea>
+                        <textarea name="alamat" id=""
+                            placeholder="Tuliskan Alamat Penjemputan Dengan Benar Dan Lengkap.."
+                            required>Jl.Kenanga 1 No.149 01/05 Kec.Pancoran Mas Kel.Depok Jaya</textarea>
                     </div>
                 </div>
 
@@ -240,7 +242,7 @@
     <!-- ========================================== -->
     <div class="modal-settings-overlay" id="modalSettings">
         <div class="modal-settings-container">
-            
+
             <!-- HEADER MODAL -->
             <div class="modal-settings-header">
                 <div>
@@ -252,7 +254,7 @@
 
             <!-- BODY MODAL (SIDEBAR TAB & KONTEN TAB) -->
             <div class="modal-settings-body">
-                
+
                 <!-- NAVIGATION TAB KIRI -->
                 <nav class="settings-sidebar">
                     <button class="tab-link active" onclick="switchTab(event, 'tab-profil')">
@@ -265,7 +267,7 @@
 
                 <!-- KONTEN TAB KANAN -->
                 <div class="settings-content">
-                    
+
                     <!-- TAB 1: PROFIL -->
                     <div id="tab-profil" class="tab-content active">
 
@@ -274,41 +276,25 @@
                         <form action="{{ url_for('update_profile') }}" method="POST">
 
                             <div class="form-grid">
-                                
+
                                 <div class="form-group">
                                     <label>Nama Lengkap</label>
-                                    <input
-                                        type="text"
-                                        name="nama_lengkap"
-                                        value="{{ profile[3] or '' }}"
-                                        required>
+                                    <input type="text" name="nama_lengkap" value="{{ profile[3] or '' }}" required>
                                 </div>
 
                                 <div class="form-group">
                                     <label>Username</label>
-                                    <input
-                                        type="text"
-                                        name="username"
-                                        value="{{ profile[0] }}"
-                                        required>
+                                    <input type="text" name="username" value="{{ profile[0] }}" required>
                                 </div>
 
                                 <div class="form-group">
                                     <label>Email</label>
-                                    <input
-                                        type="email"
-                                        name="email"
-                                        value="{{ profile[1] }}"
-                                        required>
+                                    <input type="email" name="email" value="{{ profile[1] }}" required>
                                 </div>
 
                                 <div class="form-group">
                                     <label>No. WhatsApp / Telepon</label>
-                                    <input
-                                        type="text"
-                                        name="no_telp"
-                                        value="{{ profile[2] }}"
-                                        required>
+                                    <input type="text" name="no_telp" value="{{ profile[2] }}" required>
                                 </div>
 
                             </div>
@@ -378,9 +364,10 @@
 
                     <!-- TAB 4: NOTIFIKASI -->
                     <div id="tab-notifikasi" class="tab-content">
-                        
+
                         <div class="form-footer">
-                            <button type="button" onclick="simpanPengaturan(event)" class="btn-primary">Simpan Preferensi</button>
+                            <button type="button" onclick="simpanPengaturan(event)" class="btn-primary">Simpan
+                                Preferensi</button>
                         </div>
                     </div>
 
@@ -392,49 +379,54 @@
 
     <!-- POPUP NOTIFIKASI -->
     {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
+    {% if messages %}
+    {% for category, message in messages %}
+    {% set is_profile = message.startswith('profile:') %}
+    {% set clean_message = message[8:] if is_profile else message %}
 
-                <div class="notification-overlay"
-                    id="notificationPopup">
+    <div class="notification-overlay" id="notificationPopup">
 
-                    <div class="notification-box {{ category }}">
+        <div class="notification-box {{ category }}">
 
-                        <button type="button"
-                                class="notification-close"
-                                onclick="closeNotification()">
-                            &times;
-                        </button>
+            <button type="button" class="notification-close" onclick="closeNotification()">
+                &times;
+            </button>
 
-                        <div class="notification-icon">
-                            {% if category == 'success' %}
-                                ✓
-                            {% else %}
-                                !
-                            {% endif %}
-                        </div>
+            <div class="notification-icon">
+                {% if category == 'success' %}
+                ✓
+                {% else %}
+                !
+                {% endif %}
+            </div>
 
-                        <h3>
-                            {% if category == 'success' %}
-                                Pesanan Berhasil Dibuat!
-                            {% else %}
-                                Pesanan Gagal Dibuat
-                            {% endif %}
-                        </h3>
+            <h3>
+                {% if is_profile %}
+                    {% if category == 'success' %}
+                        Profil Berhasil Diperbarui!
+                    { % else %}
+                        Gagal Memperbarui Profil
+                    {% endif %}
+                {% else %}
+                    {% if category == 'success' %}
+                        Pesanan Berhasil Dibuat!
+                    {% else %}
+                        Pesanan Gagal Dibuat
+                    {% endif %}
+                {% endif %}
+            </h3>
 
-                        <p>{{ message }}</p>
+            <p>{{ clean_message }}</p>
 
-                        <button type="button"
-                                class="notification-button"
-                                onclick="closeNotification()">
-                            Mengerti
-                        </button>
+            <button type="button" class="notification-button" onclick="closeNotification()">
+                Mengerti
+            </button>
 
-                    </div>
-                </div>
+        </div>
+    </div>
 
-            {% endfor %}
-        {% endif %}
+    {% endfor %}
+    {% endif %}
     {% endwith %}
 
 
@@ -512,9 +504,7 @@
 
             </div>
 
-            <button type="button"
-                    class="detail-close-button"
-                    onclick="closeOrderDetail()">
+            <button type="button" class="detail-close-button" onclick="closeOrderDetail()">
                 Tutup
             </button>
 
@@ -529,308 +519,309 @@
 </body>
 
 <script>
-        
-/* =========================
-   PROFILE DROPDOWN
-========================= */
 
-function bukatutupprofile() {
-    document.getElementById("profiledropdown")
-        .classList.toggle("show");
-}
+    /* =========================
+       PROFILE DROPDOWN
+    ========================= */
+
+    function bukatutupprofile() {
+        document.getElementById("profiledropdown")
+            .classList.toggle("show");
+    }
 
 
-/* =========================
-   MODAL ORDER
-========================= */
+    /* =========================
+       MODAL ORDER
+    ========================= */
 
-function openOrderModal() {
+    function openOrderModal() {
+        document.getElementById("orderModal")
+            .classList.remove("hidden");
+    }
+
+    function closeOrderModal() {
+        document.getElementById("orderModal")
+            .classList.add("hidden");
+    }
+
+
+    /* =========================
+       PILIH LAYANAN
+    ========================= */
+
+    let selectedPrice = 0;
+
+    function selectCategory(idService) {
+
+        const serviceSelect = document.getElementById("modalServiceSelect");
+
+        serviceSelect.value = idService;
+
+        openOrderModal();
+    }
+
+
+    /* =========================
+       DETAIL PESANAN
+    ========================= */
+
+    function openOrderDetail() {
+        const modal = document.getElementById("detailOrderModal");
+
+        if (modal) {
+            modal.classList.add("show");
+        }
+    }
+
+    function closeOrderDetail() {
+        const modal = document.getElementById("detailOrderModal");
+
+        if (modal) {
+            modal.classList.remove("show");
+        }
+    }
+
+
+    /* =========================
+       SUBMIT FORM ORDER
+    ========================= */
+
+    function handleFormSubmit(event) {
+
+        // Mencegah halaman melakukan refresh
+        event.preventDefault();
+
+        // Mengambil elemen form
+        const form = event.target;
+
+        // Mengambil nilai input
+        const layanan = form.querySelector(
+            "#modalServiceSelect"
+        ).value;
+
+        const qty = Number(
+            form.querySelector('input[type="number"]').value
+        );
+
+        const metode_bayar = form.querySelector(
+            'select[name="metode"]'
+        ).value;
+
+        const alamat = form.querySelector(
+            "textarea"
+        ).value.trim();
+
+        // Validasi jumlah
+        if (!Number.isFinite(qty) || qty <= 0) {
+            alert("Masukkan jumlah berat yang valid!");
+            return;
+        }
+
+        // Validasi alamat
+        if (alamat === "") {
+            alert("Alamat penjemputan harus diisi!");
+            return;
+        }
+
+        // Menghitung total harga
+        const totalHarga = qty * selectedPrice;
+
+        // Menampilkan hasil pesanan
+        alert(
+            "PESANAN BERHASIL DIBUAT!\n\n" +
+            "Layanan: " + layanan + "\n" +
+            "Berat: " + qty + " Kg\n" +
+            "Metode Bayar: " + metode + "\n" +
+            "Total Harga: Rp " +
+            totalHarga.toLocaleString("id-ID") +
+            "\nAlamat: " + alamat
+        );
+
+        // Menutup modal
+        closeOrderModal();
+
+        // Mengosongkan form
+        form.reset();
+
+        // Reset harga layanan
+        selectedPrice = 0;
+    }
+
+
+    /* =========================
+       KLIK AREA LUAR MODAL
+    ========================= */
+
     document.getElementById("orderModal")
-        .classList.remove("hidden");
-}
+        .addEventListener("click", function (event) {
 
-function closeOrderModal() {
-    document.getElementById("orderModal")
-        .classList.add("hidden");
-}
+            // Jika yang diklik adalah background modal
+            if (event.target === this) {
+                closeOrderModal();
+            }
 
-
-/* =========================
-   PILIH LAYANAN
-========================= */
-
-let selectedPrice = 0;
-
-function selectCategory(idService) {
-
-    const serviceSelect = document.getElementById("modalServiceSelect");
-
-    serviceSelect.value = idService;
-
-    openOrderModal();
-}   
+        });
 
 
-/* =========================
-   DETAIL PESANAN
-========================= */
+    /* =========================
+       TOMBOL ESCAPE
+    ========================= */
 
-function openOrderDetail() {
-    const modal = document.getElementById("detailOrderModal");
+    document.addEventListener("keydown", function (event) {
 
-    if (modal) {
-        modal.classList.add("show");
-    }
-}
-
-function closeOrderDetail() {
-    const modal = document.getElementById("detailOrderModal");
-
-    if (modal) {
-        modal.classList.remove("show");
-    }
-}
-
-
-/* =========================
-   SUBMIT FORM ORDER
-========================= */
-
-function handleFormSubmit(event) {
-
-    // Mencegah halaman melakukan refresh
-    event.preventDefault();
-
-    // Mengambil elemen form
-    const form = event.target;
-
-    // Mengambil nilai input
-    const layanan = form.querySelector(
-        "#modalServiceSelect"
-    ).value;
-
-    const qty = Number(
-        form.querySelector('input[type="number"]').value
-    );
-
-    const metode_bayar = form.querySelector(
-        'select[name="metode"]'
-    ).value;
-
-    const alamat = form.querySelector(
-        "textarea"
-    ).value.trim();
-
-    // Validasi jumlah
-    if (!Number.isFinite(qty) || qty <= 0) {
-        alert("Masukkan jumlah berat yang valid!");
-        return;
-    }
-
-    // Validasi alamat
-    if (alamat === "") {
-        alert("Alamat penjemputan harus diisi!");
-        return;
-    }
-
-    // Menghitung total harga
-    const totalHarga = qty * selectedPrice;
-
-    // Menampilkan hasil pesanan
-    alert(
-        "PESANAN BERHASIL DIBUAT!\n\n" +
-        "Layanan: " + layanan + "\n" +
-        "Berat: " + qty + " Kg\n" +
-        "Metode Bayar: " + metode + "\n" +
-        "Total Harga: Rp " +
-        totalHarga.toLocaleString("id-ID") +
-        "\nAlamat: " + alamat
-    );
-
-    // Menutup modal
-    closeOrderModal();
-
-    // Mengosongkan form
-    form.reset();
-
-    // Reset harga layanan
-    selectedPrice = 0;
-}
-
-
-/* =========================
-   KLIK AREA LUAR MODAL
-========================= */
-
-document.getElementById("orderModal")
-    .addEventListener("click", function(event) {
-
-        // Jika yang diklik adalah background modal
-        if (event.target === this) {
+        if (event.key === "Escape") {
             closeOrderModal();
         }
 
     });
 
+    document.getElementById("modalServiceSelect")
+        .addEventListener("change", function () {
 
-/* =========================
-   TOMBOL ESCAPE
-========================= */
+            const hargaLayanan = {
+                "laundry": 7000,
+                "setrika": 6000,
+                "laundry-setrika": 12000,
+                "express": 12000
+            };
 
-document.addEventListener("keydown", function(event) {
+            selectedPrice = hargaLayanan[this.value];
 
-    if (event.key === "Escape") {
-        closeOrderModal();
-    }
-
-});
-
-document.getElementById("modalServiceSelect")
-    .addEventListener("change", function() {
-
-        const hargaLayanan = {
-            "laundry": 7000,
-            "setrika": 6000,
-            "laundry-setrika": 12000,
-            "express": 12000
-        };
-
-        selectedPrice = hargaLayanan[this.value];
-
-    });
+        });
 
     /* --- LOGIK MODAL PENGATURAN --- */
-        function bukaModalPengaturan() {
-            document.getElementById("modalSettings").classList.add("show");
-            document.getElementById("profiledropdown").classList.remove("show");
+    function bukaModalPengaturan() {
+        document.getElementById("modalSettings").classList.add("show");
+        document.getElementById("profiledropdown").classList.remove("show");
+    }
+
+    function tutupModalPengaturan() {
+        document.getElementById("modalSettings").classList.remove("show");
+    }
+
+    // Buka/ganti tab pengaturan
+    function switchTab(evt, tabId) {
+        const tabContents = document.querySelectorAll(".tab-content");
+        tabContents.forEach(content => content.classList.remove("active"));
+
+        const tabLinks = document.querySelectorAll(".tab-link");
+        tabLinks.forEach(link => link.classList.remove("active"));
+
+        document.getElementById(tabId).classList.add("active");
+        evt.currentTarget.classList.add("active");
+    }
+
+    function simpanPengaturan(e) {
+        e.preventDefault();
+        alert("Pengaturan berhasil disimpan!");
+    }
+
+    // Tutup modal jika area luar (backdrop) diklik
+    document.getElementById("modalSettings").addEventListener("click", function (e) {
+        if (e.target === this) {
+            tutupModalPengaturan();
+        }
+    });
+
+    // Tutup modal dengan tombol ESC
+    document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") {
+            tutupModalPengaturan();
+        }
+    });
+
+    /* =========================
+    NOTIFIKASI
+    ========================= */
+
+    function closeNotification() {
+        const popup = document.getElementById("notificationPopup");
+
+        if (popup) {
+            popup.remove();
+        }
+    }
+
+    /* =========================
+    PAGINATION RIWAYAT (5 PER PAGE)
+    ========================= */
+    const ITEMS_PER_PAGE = 5;
+    let currentPage = 1;
+    let showAllMode = false;
+
+    function renderHistoryPagination() {
+        const rows = Array.from(document.querySelectorAll("#historyList .order-row"));
+        const paginationContainer = document.getElementById("historyPagination");
+        const toggleBtn = document.getElementById("toggleShowAllBtn");
+
+        if (!paginationContainer || rows.length === 0) {
+            if (paginationContainer) paginationContainer.innerHTML = "";
+            return;
         }
 
-        function tutupModalPengaturan() {
-            document.getElementById("modalSettings").classList.remove("show");
+        // Jika mode "Lihat Semua" aktif
+        if (showAllMode) {
+            rows.forEach(row => row.style.display = "");
+            paginationContainer.innerHTML = "";
+            if (toggleBtn) toggleBtn.textContent = "Tampilkan Per 5";
+            return;
         }
 
-        // Buka/ganti tab pengaturan
-        function switchTab(evt, tabId) {
-            const tabContents = document.querySelectorAll(".tab-content");
-            tabContents.forEach(content => content.classList.remove("active"));
+        if (toggleBtn) toggleBtn.textContent = "Lihat Semua";
 
-            const tabLinks = document.querySelectorAll(".tab-link");
-            tabLinks.forEach(link => link.classList.remove("active"));
+        const totalPages = Math.ceil(rows.length / ITEMS_PER_PAGE);
+        if (currentPage > totalPages) currentPage = totalPages;
 
-            document.getElementById(tabId).classList.add("active");
-            evt.currentTarget.classList.add("active");
-        }
+        const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+        const endIndex = startIndex + ITEMS_PER_PAGE;
 
-        function simpanPengaturan(e) {
-            e.preventDefault();
-            alert("Pengaturan berhasil disimpan!");
-        }
-
-        // Tutup modal jika area luar (backdrop) diklik
-        document.getElementById("modalSettings").addEventListener("click", function(e) {
-            if (e.target === this) {
-                tutupModalPengaturan();
-            }
+        // Tampilkan hanya 5 item sesuai halaman aktif
+        rows.forEach((row, index) => {
+            row.style.display = (index >= startIndex && index < endIndex) ? "" : "none";
         });
 
-        // Tutup modal dengan tombol ESC
-        document.addEventListener("keydown", function(e) {
-            if (e.key === "Escape") {
-                tutupModalPengaturan();
-            }
-        });
-
-        /* =========================
-        NOTIFIKASI
-        ========================= */
-
-        function closeNotification() {
-            const popup = document.getElementById("notificationPopup");
-
-            if (popup) {
-                popup.remove();
-            }
+        // Kalau total data <= 5, tombol halaman tidak perlu muncul
+        if (totalPages <= 1) {
+            paginationContainer.innerHTML = "";
+            return;
         }
 
-        /* =========================
-        PAGINATION RIWAYAT (5 PER PAGE)
-        ========================= */
-        const ITEMS_PER_PAGE = 5;
-        let currentPage = 1;
-        let showAllMode = false;
-
-        function renderHistoryPagination() {
-            const rows = Array.from(document.querySelectorAll("#historyList .order-row"));
-            const paginationContainer = document.getElementById("historyPagination");
-            const toggleBtn = document.getElementById("toggleShowAllBtn");
-
-            if (!paginationContainer || rows.length === 0) {
-                if (paginationContainer) paginationContainer.innerHTML = "";
-                return;
-            }
-
-            // Jika mode "Lihat Semua" aktif
-            if (showAllMode) {
-                rows.forEach(row => row.style.display = "");
-                paginationContainer.innerHTML = "";
-                if (toggleBtn) toggleBtn.textContent = "Tampilkan Per 5";
-                return;
-            }
-
-            if (toggleBtn) toggleBtn.textContent = "Lihat Semua";
-
-            const totalPages = Math.ceil(rows.length / ITEMS_PER_PAGE);
-            if (currentPage > totalPages) currentPage = totalPages;
-
-            const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-            const endIndex = startIndex + ITEMS_PER_PAGE;
-
-            // Tampilkan hanya 5 item sesuai halaman aktif
-            rows.forEach((row, index) => {
-                row.style.display = (index >= startIndex && index < endIndex) ? "" : "none";
-            });
-
-            // Kalau total data <= 5, tombol halaman tidak perlu muncul
-            if (totalPages <= 1) {
-                paginationContainer.innerHTML = "";
-                return;
-            }
-
-            // Buat tombol Prev, nomor halaman, dan Next
-            let html = `
+        // Buat tombol Prev, nomor halaman, dan Next
+        let html = `
                 <button type="button" class="page-btn" ${currentPage === 1 ? "disabled" : ""} onclick="changeHistoryPage(${currentPage - 1})">
                     &laquo; Prev
                 </button>
             `;
 
-            for (let i = 1; i <= totalPages; i++) {
-                html += `
+        for (let i = 1; i <= totalPages; i++) {
+            html += `
                     <button type="button" class="page-btn ${i === currentPage ? "active" : ""}" onclick="changeHistoryPage(${i})">
                         ${i}
                     </button>
                 `;
-            }
+        }
 
-            html += `
+        html += `
                 <button type="button" class="page-btn" ${currentPage === totalPages ? "disabled" : ""} onclick="changeHistoryPage(${currentPage + 1})">
                     Next &raquo;
                 </button>
             `;
 
-            paginationContainer.innerHTML = html;
-        }
+        paginationContainer.innerHTML = html;
+    }
 
-        function changeHistoryPage(page) {
-            currentPage = page;
-            renderHistoryPagination();
-        }
-
-        function toggleShowAll() {
-            showAllMode = !showAllMode;
-            renderHistoryPagination();
-        }
-
-        // Jalankan saat halaman selesai dimuat
+    function changeHistoryPage(page) {
+        currentPage = page;
         renderHistoryPagination();
+    }
+
+    function toggleShowAll() {
+        showAllMode = !showAllMode;
+        renderHistoryPagination();
+    }
+
+    // Jalankan saat halaman selesai dimuat
+    renderHistoryPagination();
 </script>
+
 </html>

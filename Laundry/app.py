@@ -325,12 +325,108 @@ def create_order():
 # DASHBOARD
 @app.route('/dashboardpage')
 def dashboardpage():
-    return render_template ('index.html')
+    connection = get_connection()
+    cursor = connection.cursor()
+    try:
+        cursor.execute("""
+        SELECT COALESCE(SUM(jumlah_bayar), 0)
+            FROM laundry.payments
+            WHERE LOWER(status_pembayaran) IN ('lunas', 'sudah bayar', 'paid')
+        """)
+        total_pendapatan = cursor.fetchone()[0]
+
+        cursor.execute("SELECT COUNT(*) FROM laundry.customers")
+        total_pelanggan = cursor.fetchone()[0]
+
+        cursor.execute("SELECT COUNT(*) FROM laundry.orders")
+        total_pesanan = cursor.fetchone()[0]
+
+        return render_template (
+            'index.html',
+            total_pendapatan=total_pendapatan,
+            total_pelanggan=total_pelanggan,
+            total_pesanan=total_pesanan
+        )
+
+    except Exception as e:
+        print('Error fetching dashboard data:', e)
+    finally:
+        cursor.close()
+        connection.close()
 
 # PAYMENT PAGE - DASHBOARD
 @app.route('/paymentdashboard')
 def paymentdashboardpage():
-    return render_template('pembayaran.html')
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    try :
+        cursor.execute("""
+            SELECT
+                COALESCE(SUM(CASE WHEN LOWER(status_pembayaran) IN ('lunas', 'sudah bayar') THEN jumlah_bayar ELSE 0 END), 0) AS total_masuk,
+                COALESCE(SUM(CASE WHEN LOWER(status_pembayaran) NOT IN ('lunas', 'sudah bayar') THEN jumlah_bayar ELSE 0 END), 0) AS belum_dibayar,
+                COALESCE(SUM(CASE WHEN LOWER(metode_pembayaran) = 'debit' AND LOWER(status_pembayaran) IN ('lunas', 'sudah bayar') THEN jumlah_bayar ELSE 0 END), 0) AS non_tunai,
+                COALESCE(SUM(CASE WHEN LOWER(metode_pembayaran) = 'cash' AND LOWER(status_pembayaran) IN ('lunas', 'sudah bayar') THEN jumlah_bayar ELSE 0 END), 0) AS tunai
+            FROM laundry.payments
+        """)
+        summary = cursor.fetchone()
+
+        cursor.execute("""
+            SELECT
+                p.id_payment,
+                o.id_order,
+                c.nama_lengkap,
+                o.tanggal_pesanan,
+                p.metode_pembayaran,
+                p.jumlah_bayar,
+                p.status_pembayaran
+            FROM laundry.payments p
+            JOIN laundry.orders o ON p.id_order = o.id_order
+            JOIN laundry.customers c ON o.id_customer = c.id_customer
+            ORDER BY p.id_payment DESC
+        """)
+
+        payments = cursor.fetchall()
+
+        return render_template(
+            'pembayaran.html',
+            summary=summary,
+            payments=payments,
+        )
+    finally:
+        cursor.close()
+        connection.close()
+
+# UPDATE PAYMENT STATUS
+@app.route('/update_payment_status', methods=['POST'])
+def update_payment_status():
+    id_payment = request.form.get('id_payment')
+    status_baru = request.form.get('status_pembayaran')
+
+    if status_baru not in ('Belum Bayar', 'Lunas'):
+        flash('Status pembayaran tidak valid!', 'error')
+        return redirect(url_for('paymentdashboardpage'))
+
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    try:
+        cursor.execute("""
+            UPDATE laundry.payments
+            SET status_pembayaran = %s
+            WHERE id_payment = %s
+        """, (status_baru, id_payment))
+        connection.commit()
+        flash('Status pembayaran berhasil diperbarui!', 'success')
+    except Exception as e:
+        connection.rollback()
+        print('Update status pembayaran gagal:', e)
+        flash('Gagal memperbarui status pembayaran.', 'error')
+    finally:
+        cursor.close()
+        connection.close()
+
+    return redirect(url_for('paymentdashboardpage'))
 
 # ORDER - DASHBOARD
 @app.route('/orderdashboard')
@@ -377,7 +473,7 @@ def update_profile():
 
         session['username'] = username
 
-        flash('Pengaturan profil berhasil diperbarui.', 'success')
+        flash('profile : Pengaturan profil berhasil diperbarui.', 'success')
 
     except Exception as e:
         connection.rollback()

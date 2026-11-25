@@ -296,3 +296,11 @@ body {
         transform: scale(1);
     }
 }
+
+.login-error-text {
+    display: block;
+    color: #dc2626;
+    font-size: 0.85rem;
+    margin-top: 6px;
+    font-weight: 500;
+}
