@@ -24,6 +24,15 @@
             <div class="form-log">
                 <label for="password">Kata Sandi</label>
                 <input type="password" name="password_user" id="password" placeholder="••••••••" required>
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            {% if category == 'error' %}
+                                <small class="login-error-text">{{ message }}</small>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
             </div>
 
             <!-- SUBMIT BUTTON -->
@@ -43,9 +52,6 @@
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             {% for category, message in messages %}
-
-                <div class="notification-overlay"
-                    id="loginNotification">
 
                     <div class="notification-box {{ category }}">
 
@@ -80,7 +86,6 @@
                         </button>
 
                     </div>
-                </div>
 
             {% endfor %}
         {% endif %}

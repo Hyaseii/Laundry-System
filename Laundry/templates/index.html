@@ -48,17 +48,17 @@
         <!-- KOTAK KOTAK KONTEN-->
         <div class="information-box">
             <span><Strong>Pendapatan Total</Strong></span>
-            <p>Rp.--</p>
+            <p>Rp {{ "{:,.0f}".format(total_pendapatan or 0).replace(",", ".") }}</p>
         </div>
 
         <div class="information-box">
             <span><Strong>Pelanggan</Strong></span>
-            <p>---</p>
+            <p>{{ total_pelanggan or 0 }}</p>
         </div>
 
         <div class="information-box">
             <span><Strong>Pesanan</Strong></span>
-            <p>---</p>
+            <p>{{ total_pesanan or 0 }}</p>
         </div>
 
         <div class="information-box">

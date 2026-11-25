@@ -986,3 +986,40 @@ footer {
     font-weight: bold;
     cursor: pointer;
 }
+
+
+.history-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+}
+
+.history-pagination .page-btn {
+    padding: 6px 12px;
+    border: 1px solid #d1d5db;
+    background-color: #ffffff;
+    color: #374151;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+}
+
+.history-pagination .page-btn:hover:not(:disabled) {
+    background-color: #f3f4f6;
+}
+
+.history-pagination .page-btn.active {
+    background-color: #2563eb;
+    color: #ffffff;
+    border-color: #2563eb;
+    font-weight: 600;
+}
+
+.history-pagination .page-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}

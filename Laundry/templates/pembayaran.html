@@ -51,22 +51,22 @@
 
         <div class="information-box">
             <span><strong>TOTAL PEMASUKAN</strong></span>
-            <p>Rp.100.000</p>
+            <p>Rp {{ "{:,.0f}".format(summary[0]).replace(",", ".") }}</p>
         </div>
 
         <div class="information-box">
             <span><strong>BELUM DIBAYAR</strong></span>
-            <p>Rp.40.000</p>
+            <p>Rp {{ "{:,.0f}".format(summary[1]).replace(",", ".") }}</p>
         </div>
 
         <div class="information-box">
             <span><strong>NON TUNAI / QRIS</strong></span>
-            <p>Rp.70.000</p>
+            <p>Rp {{ "{:,.0f}".format(summary[2]).replace(",", ".") }}</p>
         </div>
 
         <div class="information-box">
             <span><strong>TUNAI (CASH)</strong></span>
-            <p>Rp.30.000</p>
+            <p>Rp {{ "{:,.0f}".format(summary[3]).replace(",", ".") }}</p>
         </div>
 
         <div class="filter-box">
@@ -114,6 +114,32 @@
 
                     <tbody class="payment-detail">
                         <!-- DYNAMIC CONTENT PYTHON -->
+                         {% for pay in payments %}
+                            <tr class="table-row">
+                                <td class="column">#INV-{{ "%04d"|format(pay[0]) }} (Order #{{ pay[1] }})</td>
+                                <td class="column">{{ pay[2] }}</td>
+                                <td class="column">{{ pay[3].strftime('%d %b %Y %H:%M') if pay[3] else '-' }}</td>
+                                <td class="column">{{ pay[4] or '-' }}</td>
+                                <td class="column">Rp {{ "{:,.0f}".format(pay[5]).replace(",", ".") }}</td>
+                                <td class="column">
+                                    <strong>{{ pay[6] or 'Belum Bayar' }}</strong>
+                                </td>
+                                <td class="column">
+                                    <form action="{{ url_for('update_payment_status') }}" method="POST" style="display:flex; gap:6px; align-items:center;">
+                                        <input type="hidden" name="id_payment" value="{{ pay[0] }}">
+                                        <select name="status_pembayaran">
+                                            <option value="Belum Bayar" {% if pay[6] != 'Lunas' %}selected{% endif %}>Belum Bayar</option>
+                                            <option value="Lunas" {% if pay[6] == 'Lunas' %}selected{% endif %}>Lunas</option>
+                                        </select>
+                                        <button type="submit">Simpan</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="7" style="text-align:center;">Belum ada data pembayaran.</td>
+                            </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
